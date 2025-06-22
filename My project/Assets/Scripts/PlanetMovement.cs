@@ -125,6 +125,6 @@ public class PlanetMovement : MonoBehaviour
     float NormalizeAngle(float angle)
     {
         if (angle > 180f) angle -= 360f;
-        return Mathf.Round(angle / 90f) * 90f; //snaps to closest 90°
+        return Mathf.Round(angle / 90f) * 90f; //snaps to closest 90ï¿½
     }
 }
