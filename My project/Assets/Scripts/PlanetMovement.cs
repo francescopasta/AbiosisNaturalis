@@ -14,9 +14,9 @@ public class PlanetMovement : MonoBehaviour
     #region Variables
 
     public Transform target;
-    public float rotationSpeed = 5f; 
+    public float rotationSpeed = 5f;
 
-    private float[] allowedAngles = { -90f, 0f, 90f };
+    private float[] allowedAngles = { -120f, 0f, 120f };
     private float currentAngle = 0f;
     private float targetAngle = 0f;
 
@@ -67,7 +67,7 @@ public class PlanetMovement : MonoBehaviour
             if (isOnTheLeft != wasOnTheLeft) //checks if the mouse crossed the center of the screen
             {
                 wasOnTheLeft = isOnTheLeft;
-                float direction = isOnTheLeft ? -1f : 1f;
+                float direction = isOnTheLeft ? 1f : -1f;
                 Rotation(direction);
             }
         }
@@ -112,19 +112,20 @@ public class PlanetMovement : MonoBehaviour
 
     void Rotation(float direction)
     {
-        float nextAngle = targetAngle - direction * 90f;
+        //float nextAngle = targetAngle - direction * 90f;
+        float nextAngle = targetAngle + direction * 120f;
 
-        nextAngle = Mathf.Clamp(nextAngle, -90f, 90f); //clamps the angle to 0, 90, -90
+        nextAngle = Mathf.Clamp(nextAngle, -120f, 120f); //clamps the angle to 0, 90, -90
 
         if (System.Array.Exists(allowedAngles, angle => Mathf.Approximately(angle, nextAngle))) //if the "nextAngles" is almost equal to any of the values in "allowedAngles", then it updates the targetAngle
         {
             targetAngle = nextAngle;
         }
     }
-
+    
     float NormalizeAngle(float angle)
     {
         if (angle > 180f) angle -= 360f;
-        return Mathf.Round(angle / 90f) * 90f; //snaps to closest 90�
+        return Mathf.Round(angle / 120f) * 120f; //snaps to closest 90�
     }
 }
