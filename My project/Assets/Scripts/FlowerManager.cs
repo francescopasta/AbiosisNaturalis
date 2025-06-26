@@ -21,13 +21,13 @@ public class FlowerManager : MonoBehaviour
     public WaterMeter waterMeter;
 
     [Tooltip("This is the left part of the interaction zone")]
-    [Range(0f, 1f)] public float minInteractibleArea; 
+    [Range(0f, 1f)] public float minInteractibleArea;
     [Tooltip("This is the right part of the interaction zone")]
-    [Range(0f, 1f)] public float maxInteractibleArea; 
+    [Range(0f, 1f)] public float maxInteractibleArea;
 
     public enum FlowerProgress
     {
-        None, 
+        None,
         FirstWait,
         SecondStage,
         SecondWait,
@@ -39,7 +39,7 @@ public class FlowerManager : MonoBehaviour
         public float targetAngle;
         public System.Action action; //holds information for what the flower should do
     }
-    
+
     public class FlowerBool
     {
         public System.Func<bool> boolCheck; //checks the bool all the time and it's value is not fixed
@@ -64,7 +64,7 @@ public class FlowerManager : MonoBehaviour
                     {
                         waterFlower.firstStage = true;
                     }
-                
+
                     waterFlower.WaterFlowers();
                 }
             },
@@ -77,7 +77,6 @@ public class FlowerManager : MonoBehaviour
                     if (crystalFlower.crystalSeeds > 0)
                     {
                         crystalFlower.firstStage = true;
-                        crystalFlower.crystalSeeds -= 1;
                     }
 
                     crystalFlower.CrystalFlowers();
@@ -92,7 +91,6 @@ public class FlowerManager : MonoBehaviour
                     if (fireFlower.fireSeeds > 0)
                     {
                         fireFlower.firstStage = true;
-                        fireFlower.fireSeeds -= 1;
                     }
 
                     fireFlower.FireFlowers();
@@ -109,12 +107,12 @@ public class FlowerManager : MonoBehaviour
                 action = () =>
                 {
                     waterFlower.secondStage = true;
-                    waterFlower.firstStage = false; 
+                    waterFlower.firstStage = false;
                     flowerProgress = FlowerProgress.FirstWait;
                 }
 
             },
-            
+
             new FlowerBool //wait between stage 2 and 3
             {
                 boolCheck = () => flowerProgress == FlowerProgress.FirstWait && waterMeter.water == 0,
@@ -149,10 +147,11 @@ public class FlowerManager : MonoBehaviour
             {
                 boolCheck = () => waterFlower.thirdStage && waterMeter.water >= 100 && flowerProgress == FlowerProgress.ThirdStage,
                 action = () =>
-                { 
+                {
                     waterFlower.thirdStage = false;
                     flowerProgress = FlowerProgress.None;
                     waterFlower.waterSeeds += waterFlower.reward; //this is here for the moment and for closing the loop for testing purposes. it could be removed later, if the player buys seeds from the shop
+                    //the currency goes up
                 }
             },
             #endregion
@@ -208,6 +207,7 @@ public class FlowerManager : MonoBehaviour
                     crystalFlower.thirdStage = false;
                     flowerProgress = FlowerProgress.None;
                     crystalFlower.crystalSeeds += crystalFlower.reward; //this is here for the moment and for closing the loop for testing purposes. it could be removed later, if the player buys seeds from the shop
+                    //the currency goes up
                 }
             },
 
@@ -264,21 +264,22 @@ public class FlowerManager : MonoBehaviour
                     fireFlower.thirdStage = false;
                     flowerProgress = FlowerProgress.None;
                     fireFlower.fireSeeds += fireFlower.reward; //this is here for the moment and for closing the loop for testing purposes. it could be removed later, if the player buys seeds from the shop
+                    //the currency goes up
                 }
             },
 
 #endregion
         };
-    }        
+    }
 
     void Update()
     {
         ///Chooses which code to run, depanding on the build
-        #if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
+#if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
         ComputerInteraction();
-        #elif UNITY_IOS || UNITY_ANDROID
+#elif UNITY_IOS || UNITY_ANDROID
             MobileInteraction();
-        #endif
+#endif
 
         foreach (var condition in flowerBools)
         {
@@ -331,7 +332,7 @@ public class FlowerManager : MonoBehaviour
                 waterMeter.WaterGain();
             }
         }
-    } 
+    }
 
     void MobileInteraction()
     {
