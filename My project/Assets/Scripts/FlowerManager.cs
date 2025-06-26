@@ -390,4 +390,31 @@ public class FlowerManager : MonoBehaviour
         if (angle > 180f) angle -= 360f;
         return angle;
     }
+
+    //for debugging
+    private void OnDrawGizmos()
+    {
+        if (Camera.main == null) return;
+
+        float screenHeight = Camera.main.pixelHeight;
+        float screenWidth = Camera.main.pixelWidth;
+
+        // Get min and max X in screen space
+        float minX = screenWidth * minInteractibleArea;
+        float maxX = screenWidth * maxInteractibleArea;
+
+        // We'll draw a vertical line from bottom to top of the screen
+        Vector3 bottomMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, 0, Camera.main.nearClipPlane + 5f));
+        Vector3 topMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, screenHeight, Camera.main.nearClipPlane + 5f));
+
+        Vector3 bottomMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, 0, Camera.main.nearClipPlane + 5f));
+        Vector3 topMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, screenHeight, Camera.main.nearClipPlane + 5f));
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(bottomMin, topMin);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(bottomMax, topMax);
+    }
+
 }
