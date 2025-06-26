@@ -50,7 +50,7 @@ public class WaterFlower : MonoBehaviour
 
         if (firstStage && waterSeeds > 0)
         {
-            Instantiate(seed, Vector3.zero, Quaternion.identity);
+            Instantiate(seed, transform.position + Vector3.up * 2f, Quaternion.identity);
 
             waterSeeds -= 1;
             plantedSeedCount += 1;
@@ -67,7 +67,7 @@ public class WaterFlower : MonoBehaviour
 
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
+                Vector3 spawnPos = transform.position + offsets[i] + Vector3.up * 2f;
                 Instantiate(selectedPrimary, spawnPos, Quaternion.identity);
                 spawnedSecondStage++;
             }
@@ -85,7 +85,7 @@ public class WaterFlower : MonoBehaviour
 
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
+                Vector3 spawnPos = transform.position + offsets[i] + Vector3.up * 2f;
                 Instantiate(selectedSecondary, spawnPos, Quaternion.identity);
                 spawnedThirdStage++;
             }

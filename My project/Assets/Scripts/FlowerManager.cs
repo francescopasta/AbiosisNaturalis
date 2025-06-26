@@ -20,10 +20,10 @@ public class FlowerManager : MonoBehaviour
 
     public WaterMeter waterMeter;
 
-    [Tooltip("This is the left part of the interaction zone")]
-    [Range(0f, 1f)] public float minInteractibleArea;
-    [Tooltip("This is the right part of the interaction zone")]
-    [Range(0f, 1f)] public float maxInteractibleArea;
+    //[Tooltip("This is the left part of the interaction zone")]
+    //[Range(0f, 1f)] public float minInteractibleArea;
+    //[Tooltip("This is the right part of the interaction zone")]
+    //[Range(0f, 1f)] public float maxInteractibleArea;
 
     public enum FlowerProgress
     {
@@ -272,118 +272,118 @@ public class FlowerManager : MonoBehaviour
         };
     }
 
-    void Update()
-    {
-        ///Chooses which code to run, depanding on the build
-#if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
-        ComputerInteraction();
-#elif UNITY_IOS || UNITY_ANDROID
-            MobileInteraction();
-#endif
+//    void Update()
+//    {
+//        ///Chooses which code to run, depanding on the build
+//#if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
+//        ComputerInteraction();
+//#elif UNITY_IOS || UNITY_ANDROID
+//            MobileInteraction();
+//#endif
 
-        foreach (var condition in flowerBools)
-        {
-            if (condition.boolCheck())
-            {
-                condition.action();
-            }
-        }
-    }
+//        foreach (var condition in flowerBools)
+//        {
+//            if (condition.boolCheck())
+//            {
+//                condition.action();
+//            }
+//        }
+//    }
 
-    void ComputerInteraction()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            float x = Input.mousePosition.x;
-            float screenWidth = Screen.width;
+    //void ComputerInteraction()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        float x = Input.mousePosition.x;
+    //        float screenWidth = Screen.width;
 
-            if (x > screenWidth * minInteractibleArea && x < screenWidth * maxInteractibleArea) //compares the mouse position to the interactible area
-            {
-                float angleZ = NormalizeAngle(planet.transform.localEulerAngles.z);
+    //        if (x > screenWidth * minInteractibleArea && x < screenWidth * maxInteractibleArea) //compares the mouse position to the interactible area
+    //        {
+    //            float angleZ = NormalizeAngle(planet.transform.localEulerAngles.z);
 
-                foreach (var flower in flowerActions)
-                {
-                    if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
-                    {
-                        flower.action.Invoke();
+    //            foreach (var flower in flowerActions)
+    //            {
+    //                if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
+    //                {
+    //                    flower.action.Invoke();
 
-                        foreach (var condtion in flowerBools)
-                        {
-                            if (condtion.boolCheck())
-                            {
-                                condtion.action.Invoke();
-                            }
-                        }
+    //                    foreach (var condtion in flowerBools)
+    //                    {
+    //                        if (condtion.boolCheck())
+    //                        {
+    //                            condtion.action.Invoke();
+    //                        }
+    //                    }
 
-                        break;
-                    }
-                }
+    //                    break;
+    //                }
+    //            }
 
-                if (waterMeter.water >= 100)
-                {
-                    waterMeter.waterGainDefault = 0;
-                }
+    //            if (waterMeter.water >= 100)
+    //            {
+    //                waterMeter.waterGainDefault = 0;
+    //            }
 
-                else if (waterMeter.water == 0)
-                {
-                    waterMeter.waterGainDefault = waterMeter.waterGainUpdate;
-                }
+    //            else if (waterMeter.water == 0)
+    //            {
+    //                waterMeter.waterGainDefault = waterMeter.waterGainUpdate;
+    //            }
 
-                waterMeter.WaterGain();
-            }
-        }
-    }
+    //            waterMeter.WaterGain();
+    //        }
+    //    }
+    //}
 
-    void MobileInteraction()
-    {
-        if (Input.touchCount > 0) //cheks if there is a finger on the screen
-        {
-            Touch touch = Input.GetTouch(0);
+    //void MobileInteraction()
+    //{
+    //    if (Input.touchCount > 0) //cheks if there is a finger on the screen
+    //    {
+    //        Touch touch = Input.GetTouch(0);
 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began: //began touching
-                    float x = touch.position.x;
-                    float screenWidth = Screen.width;
+    //        switch (touch.phase)
+    //        {
+    //            case TouchPhase.Began: //began touching
+    //                float x = touch.position.x;
+    //                float screenWidth = Screen.width;
 
-                    if (x > screenWidth * minInteractibleArea && x < screenWidth * maxInteractibleArea) //compares the finger position to the interactible area
-                    {
-                        float angleZ = NormalizeAngle(planet.transform.localEulerAngles.z);
+    //                if (x > screenWidth * minInteractibleArea && x < screenWidth * maxInteractibleArea) //compares the finger position to the interactible area
+    //                {
+    //                    float angleZ = NormalizeAngle(planet.transform.localEulerAngles.z);
 
-                        foreach (var flower in flowerActions)
-                        {
-                            if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
-                            {
-                                flower.action.Invoke();
+    //                    foreach (var flower in flowerActions)
+    //                    {
+    //                        if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
+    //                        {
+    //                            flower.action.Invoke();
 
-                                foreach (var condtion in flowerBools)
-                                {
-                                    if (condtion.boolCheck())
-                                    {
-                                        condtion.action.Invoke();
-                                    }
-                                }
+    //                            foreach (var condtion in flowerBools)
+    //                            {
+    //                                if (condtion.boolCheck())
+    //                                {
+    //                                    condtion.action.Invoke();
+    //                                }
+    //                            }
 
-                                break;
-                            }
-                        }
+    //                            break;
+    //                        }
+    //                    }
 
-                        if (waterMeter.water >= 100)
-                        {
-                            waterMeter.waterGainDefault = 0;
-                        }
+    //                    if (waterMeter.water >= 100)
+    //                    {
+    //                        waterMeter.waterGainDefault = 0;
+    //                    }
 
-                        else if (waterMeter.water == 0)
-                        {
-                            waterMeter.waterGainDefault = waterMeter.waterGainUpdate;
-                        }
+    //                    else if (waterMeter.water == 0)
+    //                    {
+    //                        waterMeter.waterGainDefault = waterMeter.waterGainUpdate;
+    //                    }
 
-                        waterMeter.WaterGain();
-                    }
-                    break;
-            }
-        }
-    }
+    //                    waterMeter.WaterGain();
+    //                }
+    //                break;
+    //        }
+    //    }
+    //}
 
     float NormalizeAngle(float angle)
     {
@@ -391,30 +391,93 @@ public class FlowerManager : MonoBehaviour
         return angle;
     }
 
-    //for debugging
-    private void OnDrawGizmos()
+    public void OnWaterButtonPressed()
     {
-        if (Camera.main == null) return;
-
-        float screenHeight = Camera.main.pixelHeight;
-        float screenWidth = Camera.main.pixelWidth;
-
-        // Get min and max X in screen space
-        float minX = screenWidth * minInteractibleArea;
-        float maxX = screenWidth * maxInteractibleArea;
-
-        // We'll draw a vertical line from bottom to top of the screen
-        Vector3 bottomMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, 0, Camera.main.nearClipPlane + 5f));
-        Vector3 topMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, screenHeight, Camera.main.nearClipPlane + 5f));
-
-        Vector3 bottomMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, 0, Camera.main.nearClipPlane + 5f));
-        Vector3 topMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, screenHeight, Camera.main.nearClipPlane + 5f));
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(bottomMin, topMin);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(bottomMax, topMax);
+        flowerActions.Find(f => Mathf.Approximately(f.targetAngle, 90f))?.action.Invoke();
+        ProcessFlowerBoolsFor("waterFlower");
+        WaterMeterInteraction();
     }
+
+    public void OnFireButtonPressed()
+    {
+        flowerActions.Find(f => Mathf.Approximately(f.targetAngle, 0f))?.action.Invoke();
+        ProcessFlowerBoolsFor("fireFlower");
+        WaterMeterInteraction();
+    }
+
+    public void OnCrystalButtonPressed()
+    {
+        flowerActions.Find(f => Mathf.Approximately(f.targetAngle, -90f))?.action.Invoke();
+        ProcessFlowerBoolsFor("crystalFlower");
+        WaterMeterInteraction();
+    }
+
+    // Shared logic
+    void WaterMeterInteraction()
+    {
+        if (waterMeter.water >= 100)
+            waterMeter.waterGainDefault = 0;
+        else if (waterMeter.water == 0)
+            waterMeter.waterGainDefault = waterMeter.waterGainUpdate;
+
+        waterMeter.WaterGain();
+    }
+
+    // Utility to run only the relevant FlowerBools
+    void ProcessFlowerBoolsFor(MonoBehaviour flower)
+    {
+        foreach (var condition in flowerBools)
+        {
+            if (condition.boolCheck())
+            {
+                // Make sure the condition is related to the current flower
+                if (flower == waterFlower && condition.boolCheck.Method.Name.Contains("waterFlower")) condition.action.Invoke();
+                if (flower == fireFlower && condition.boolCheck.Method.Name.Contains("fireFlower")) condition.action.Invoke();
+                if (flower == crystalFlower && condition.boolCheck.Method.Name.Contains("crystalFlower")) condition.action.Invoke();
+            }
+        }
+    }
+
+    void ProcessFlowerBoolsFor(string flowerName)
+    {
+        foreach (var condition in flowerBools)
+        {
+            // We assume function names contain waterFlower / fireFlower / crystalFlower
+            if (condition.boolCheck.Method.ToString().Contains(flowerName))
+            {
+                if (condition.boolCheck())
+                {
+                    Debug.Log($"✅ {flowerName} condition triggered");
+                    condition.action.Invoke();
+                }
+            }
+        }
+    }
+
+    //for debugging
+    //private void OnDrawGizmos()
+    //{
+    //    if (Camera.main == null) return;
+
+    //    float screenHeight = Camera.main.pixelHeight;
+    //    float screenWidth = Camera.main.pixelWidth;
+
+    //    // Get min and max X in screen space
+    //    float minX = screenWidth * minInteractibleArea;
+    //    float maxX = screenWidth * maxInteractibleArea;
+
+    //    // We'll draw a vertical line from bottom to top of the screen
+    //    Vector3 bottomMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, 0, Camera.main.nearClipPlane + 5f));
+    //    Vector3 topMin = Camera.main.ScreenToWorldPoint(new Vector3(minX, screenHeight, Camera.main.nearClipPlane + 5f));
+
+    //    Vector3 bottomMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, 0, Camera.main.nearClipPlane + 5f));
+    //    Vector3 topMax = Camera.main.ScreenToWorldPoint(new Vector3(maxX, screenHeight, Camera.main.nearClipPlane + 5f));
+
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(bottomMin, topMin);
+
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(bottomMax, topMax);
+    //}
 
 }

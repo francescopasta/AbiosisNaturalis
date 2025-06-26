@@ -50,7 +50,7 @@ public class FireFlower : MonoBehaviour
 
         if (firstStage && fireSeeds > 0)
         {
-            Instantiate(seed, Vector3.zero, Quaternion.identity);
+            Instantiate(seed, transform.position + Vector3.up * 2f, Quaternion.identity);
 
             fireSeeds -= 1;
             plantedSeedCount += 1;
@@ -67,7 +67,7 @@ public class FireFlower : MonoBehaviour
 
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
+                Vector3 spawnPos = transform.position + offsets[i] + Vector3.up * 2f;
                 Instantiate(selectedPrimary, spawnPos, Quaternion.identity);
                 spawnedSecondStage++;
             }
