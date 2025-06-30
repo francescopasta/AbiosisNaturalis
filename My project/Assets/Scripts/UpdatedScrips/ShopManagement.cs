@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using TMPro;
 
 public class ShopManagementUpdated : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class ShopManagementUpdated : MonoBehaviour
         "8. If you need help, contact Ilian.")]
     public string Instructions = "Hover your mouse over this variable.";
 
-    [Tooltip("The total amound of currency the player have.")]
+    [Tooltip("The total amound of currency the player has.")]
     public int totalCurrency;
     [Tooltip("The amound of currency the player will gain for a water flower.")]
     public int currencyPerWater;
@@ -32,9 +34,19 @@ public class ShopManagementUpdated : MonoBehaviour
 
     public bool[] gardenUnlock;
 
-    //public GameObject panel;
+    //UI
     public GameObject firePanelUI;
     public GameObject crystalPanelUI;
+    public TextMeshProUGUI waterIncome;
+    public TextMeshProUGUI fireIncome;
+    public TextMeshProUGUI crystalIncome;
+
+    public void Update()
+    {
+        waterIncome.text = currencyPerWater.ToString() + "per Flower";
+        fireIncome.text = currencyPerFire.ToString() + "per Flower";
+        crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
+    }
 
     public void ShoppingButtonNewGarden()
     {
@@ -49,7 +61,6 @@ public class ShopManagementUpdated : MonoBehaviour
             gardenUnlock[1] = true; //crystal garden
             crystalPanelUI.SetActive(false);
         }
-        //panel.SetActive(false);
     }
 
     public void ShoppingButtonUpgrade()
@@ -68,7 +79,5 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             upgades[2] = true; //crystal garden
         }
-
-        //panel.SetActive(false);
     }
 }
