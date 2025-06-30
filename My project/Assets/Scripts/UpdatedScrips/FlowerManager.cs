@@ -65,7 +65,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             new FlowerAction //water flower
             {
                 index = 0,
-                targetAngle = 90f,
+                targetAngle = 120f,
                 action = () =>
                 {
                     if (waterFlower.waterSeeds > 0 && waterProgress == FlowerProgress.None && waterMeter.waterLevels[0] == 0)
@@ -96,7 +96,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             new FlowerAction //crystal flower
             {
                 index = 2,
-                targetAngle = -90f,
+                targetAngle = -120f,
                 action = () =>
                 {
                     if (crystalFlower.crystalSeeds > 0 && crystalProgress == FlowerProgress.None && waterMeter.waterLevels[2] == 0)
