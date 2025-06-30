@@ -1,0 +1,49 @@
+using UnityEngine;
+
+public class ShopManagementUpdated : MonoBehaviour
+{
+    [Tooltip(
+        "1. Place this script on the object that will manage all the shop.   " +
+        "2. Do the same for the objects with the _WaterFlowe / FireFlower / CrystalFlower_ scripts.  " +
+        "3. Place the assets for the upgrade under _UpgradeAssets_.   " +
+        "4. Do the same with the object with the _WaterMeter_ script.   " +
+        "5. Change the amound of currency that will be given to the player for the water, fire and crystal flowers under _CurrencyPerWater/Fire/Crystal_.   " +
+        "5. Change the price of the upgrades under _PricePerUpgrade_.  " +
+        "6. Under _Upgrades_, add 3 values. All of them should represent empty boxes.   " +
+        "7. For more information, hover your mouse over the variables." +
+        "8. If you need help, contact Ilian.")]
+    public string Instructions = "Hover your mouse over this variable.";
+
+    [Tooltip("The total amound of currency the player have.")]
+    public int totalCurrency;
+    [Tooltip("The amound of currency the player will gain for a water flower.")]
+    public int currencyPerWater;
+    [Tooltip("The amound of currency the player will gain for a fire flower.")]
+    public int currencyPerFire;
+    [Tooltip("The amound of currency the player will gain for a crystal flower.")]
+    public int currencyPerCrystal;
+
+    [Tooltip("The price of a given upgrade")]
+    public int[] pricePerUpgrade;
+
+    [Tooltip("Booleans to keep track of each upgrade is activated.")]
+    public bool[] upgades;
+
+    void ShoppingButton()
+    {
+        if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
+        {
+            upgades[0] = true;
+        }
+
+        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
+        {
+            upgades[1] = true;
+        }
+
+        if(totalCurrency >= pricePerUpgrade[2] && !upgades[2])
+        {
+            upgades[2] = true;
+        }
+    }
+}
