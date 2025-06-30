@@ -25,25 +25,38 @@ public class ShopManagementUpdated : MonoBehaviour
 
     [Tooltip("The price of a given upgrade")]
     public int[] pricePerUpgrade;
+    public int[] pricePerGarden;
 
     [Tooltip("Booleans to keep track of each upgrade is activated.")]
     public bool[] upgades;
 
-    void ShoppingButton()
+    public bool[] gardenUnlock;
+
+    public void ShoppingButton()
     {
         if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
         {
-            upgades[0] = true;
+            upgades[0] = true; //water garden
         }
 
         if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
         {
-            upgades[1] = true;
+            upgades[1] = true;  //fire garden
         }
 
-        if(totalCurrency >= pricePerUpgrade[2] && !upgades[2])
+        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2])
         {
-            upgades[2] = true;
+            upgades[2] = true; //crystal garden
+        }
+
+        if (totalCurrency >= pricePerGarden[0] && !gardenUnlock[0])
+        {
+            gardenUnlock[0] = true; //fire garden
+        }
+
+        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1])
+        {
+            gardenUnlock[1] = true; //crystal garden
         }
     }
 }
