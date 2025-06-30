@@ -6270,7 +6270,9 @@ MonoBehaviour:
   currencyPerFire: 2
   currencyPerCrystal: 3
   pricePerUpgrade: 
+  pricePerGarden: 
   upgades: 
+  gardenUnlock: 
 --- !u!1 &2032561031
 GameObject:
   m_ObjectHideFlags: 0

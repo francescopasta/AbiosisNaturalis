@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using TMPro;
 
 public class ShopManagementUpdated : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class ShopManagementUpdated : MonoBehaviour
         "8. If you need help, contact Ilian.")]
     public string Instructions = "Hover your mouse over this variable.";
 
-    [Tooltip("The total amound of currency the player have.")]
+    [Tooltip("The total amound of currency the player has.")]
     public int totalCurrency;
     [Tooltip("The amound of currency the player will gain for a water flower.")]
     public int currencyPerWater;
@@ -25,25 +27,57 @@ public class ShopManagementUpdated : MonoBehaviour
 
     [Tooltip("The price of a given upgrade")]
     public int[] pricePerUpgrade;
+    public int[] pricePerGarden;
 
     [Tooltip("Booleans to keep track of each upgrade is activated.")]
     public bool[] upgades;
 
-    void ShoppingButton()
+    public bool[] gardenUnlock;
+
+    //UI
+    public GameObject firePanelUI;
+    public GameObject crystalPanelUI;
+    public TextMeshProUGUI waterIncome;
+    public TextMeshProUGUI fireIncome;
+    public TextMeshProUGUI crystalIncome;
+
+    public void Update()
+    {
+        waterIncome.text = currencyPerWater.ToString() + "per Flower";
+        fireIncome.text = currencyPerFire.ToString() + "per Flower";
+        crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
+    }
+
+    public void ShoppingButtonNewGarden()
+    {
+        if (totalCurrency >= pricePerGarden[0] && !gardenUnlock[0])
+        {
+            gardenUnlock[0] = true; //fire garden
+            firePanelUI.SetActive(false);
+        }
+
+        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1] && gardenUnlock[0])
+        {
+            gardenUnlock[1] = true; //crystal garden
+            crystalPanelUI.SetActive(false);
+        }
+    }
+
+    public void ShoppingButtonUpgrade()
     {
         if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
         {
-            upgades[0] = true;
+            upgades[0] = true; //water garden
         }
 
-        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
+        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
         {
-            upgades[1] = true;
+            upgades[1] = true;  //fire garden
         }
 
-        if(totalCurrency >= pricePerUpgrade[2] && !upgades[2])
+        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
         {
-            upgades[2] = true;
+            upgades[2] = true; //crystal garden
         }
     }
 }
