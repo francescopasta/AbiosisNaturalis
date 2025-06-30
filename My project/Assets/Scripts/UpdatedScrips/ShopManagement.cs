@@ -32,31 +32,43 @@ public class ShopManagementUpdated : MonoBehaviour
 
     public bool[] gardenUnlock;
 
-    public void ShoppingButton()
+    //public GameObject panel;
+    public GameObject firePanelUI;
+    public GameObject crystalPanelUI;
+
+    public void ShoppingButtonNewGarden()
+    {
+        if (totalCurrency >= pricePerGarden[0] && !gardenUnlock[0])
+        {
+            gardenUnlock[0] = true; //fire garden
+            firePanelUI.SetActive(false);
+        }
+
+        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1] && gardenUnlock[0])
+        {
+            gardenUnlock[1] = true; //crystal garden
+            crystalPanelUI.SetActive(false);
+        }
+        //panel.SetActive(false);
+    }
+
+    public void ShoppingButtonUpgrade()
     {
         if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
         {
             upgades[0] = true; //water garden
         }
 
-        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
+        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
         {
             upgades[1] = true;  //fire garden
         }
 
-        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2])
+        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
         {
             upgades[2] = true; //crystal garden
         }
 
-        if (totalCurrency >= pricePerGarden[0] && !gardenUnlock[0])
-        {
-            gardenUnlock[0] = true; //fire garden
-        }
-
-        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1])
-        {
-            gardenUnlock[1] = true; //crystal garden
-        }
+        //panel.SetActive(false);
     }
 }
