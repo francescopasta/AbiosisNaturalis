@@ -42,6 +42,9 @@ public class FireFlowerUpdated : MonoBehaviour
     public List<GameObject> currentSecondStage = new();
     public List<GameObject> currentThirdStage = new();
 
+    GameObject selectedPrimary;
+    GameObject selectedSecondary;
+
     public void FireFlowers()
     {
         Vector3[] offsets = {
@@ -55,15 +58,18 @@ public class FireFlowerUpdated : MonoBehaviour
             return;
         }
 
-        int index = Random.Range(0, fireSecondStage.Length);
+        for (int i = 0; i < fireSeeds; i++)
+        {
+            int index = Random.Range(0, fireSecondStage.Length);
 
-        GameObject selectedPrimary = fireSecondStage[index];
-        GameObject selectedSecondary = fireThirdStage[index];
+            selectedPrimary = fireSecondStage[index];
+            selectedSecondary = fireThirdStage[index];
+        }
 
         if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length)
         {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity);
+            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
 
             fireSeeds--;
             plantedSeedCount++;
@@ -78,7 +84,7 @@ public class FireFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity, transform.parent);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -98,7 +104,7 @@ public class FireFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity, transform.parent);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }

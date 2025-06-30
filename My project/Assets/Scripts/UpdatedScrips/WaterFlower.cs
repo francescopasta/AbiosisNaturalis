@@ -42,8 +42,8 @@ public class WaterFlowerUpdated : MonoBehaviour
     public List<GameObject> currentSecondStage = new();
     public List<GameObject> currentThirdStage = new();
 
-    
-
+    GameObject selectedPrimary;
+    GameObject selectedSecondary;
 
     public void WaterFlowers()
     {
@@ -58,13 +58,16 @@ public class WaterFlowerUpdated : MonoBehaviour
             return;
         }
 
-        int index = Random.Range(0, waterSecondStage.Length);
+        for (int i = 0; i < waterSeeds; i++)
+        {
+            int index = Random.Range(0, waterSecondStage.Length);
 
-        GameObject selectedPrimary = waterSecondStage[index];
-        GameObject selectedSecondary = waterThirdStage[index];
+            selectedPrimary = waterSecondStage[index];
+            selectedSecondary = waterThirdStage[index];
+        }
 
         if (firstStage && waterSeeds > 0 && nextSeedIndex < offsets.Length) //clear nextSeed
-{
+        {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
             GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
 
@@ -75,7 +78,7 @@ public class WaterFlowerUpdated : MonoBehaviour
 
             Debug.Log("First stage water placed");
         }
-        
+
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount) //Clear SpawnedSeeds
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)

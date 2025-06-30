@@ -42,6 +42,9 @@ public class CrystalFlowerUpdated : MonoBehaviour
     public List<GameObject> currentSecondStage = new();
     public List<GameObject> currentThirdStage = new();
 
+    GameObject selectedPrimary;
+    GameObject selectedSecondary;
+
     public void CrystalFlowers()
     {
         Vector3[] offsets = {
@@ -55,15 +58,18 @@ public class CrystalFlowerUpdated : MonoBehaviour
             return;
         }
 
-        int index = Random.Range(0, crystalSecondStage.Length);
+        for (int i = 0; i < crystalSeeds; i++)
+        {
+            int index = Random.Range(0, crystalSecondStage.Length);
 
-        GameObject selectedPrimary = crystalSecondStage[index];
-        GameObject selectedSecondary = crystalThirdStage[index];
+            selectedPrimary = crystalSecondStage[index];
+            selectedSecondary = crystalThirdStage[index];
+        }
 
         if (firstStage && crystalSeeds > 0 && nextSeedIndex < offsets.Length)
         {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity);
+            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
 
             crystalSeeds--;
             plantedSeedCount++;
@@ -77,7 +83,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity, transform.parent);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -97,7 +103,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity);
+                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity, transform.parent);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }
