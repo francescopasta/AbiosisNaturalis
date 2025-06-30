@@ -45,6 +45,7 @@ public class WaterFlowerUpdated : MonoBehaviour
     GameObject selectedPrimary;
     GameObject selectedSecondary;
 
+    public List<GameObject> seedParents = new List<GameObject>();
     public void WaterFlowers()
     {
         Vector3[] offsets = {
@@ -68,14 +69,15 @@ public class WaterFlowerUpdated : MonoBehaviour
 
         if (firstStage && waterSeeds > 0 && nextSeedIndex < offsets.Length) //clear nextSeed
         {
-            Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
+            
+            //Vector3 spawnPos = new Vector3(transform.position.x , transform.position.y , transform.position.z );
+            GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, transform.rotation, seedParents[nextSeedIndex].transform);
 
             waterSeeds--;
             plantedSeedCount++;
             nextSeedIndex++;
             currentSeeds.Add(instance);
-
+           
             Debug.Log("First stage water placed");
         }
 
@@ -84,7 +86,7 @@ public class WaterFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity, transform.parent);
+                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -104,7 +106,7 @@ public class WaterFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity, transform.parent);
+                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }

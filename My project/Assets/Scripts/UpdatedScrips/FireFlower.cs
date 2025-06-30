@@ -45,6 +45,8 @@ public class FireFlowerUpdated : MonoBehaviour
     GameObject selectedPrimary;
     GameObject selectedSecondary;
 
+    public List<GameObject> seedParents = new List<GameObject>();
+
     public void FireFlowers()
     {
         Vector3[] offsets = {
@@ -69,7 +71,7 @@ public class FireFlowerUpdated : MonoBehaviour
         if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length)
         {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
+            GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, Quaternion.identity, seedParents[nextSeedIndex].transform);
 
             fireSeeds--;
             plantedSeedCount++;
@@ -83,8 +85,8 @@ public class FireFlowerUpdated : MonoBehaviour
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity, transform.parent);
+                ///Vector3 spawnPos = transform.position + offsets[i];
+                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -103,8 +105,8 @@ public class FireFlowerUpdated : MonoBehaviour
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity, transform.parent);
+                //Vector3 spawnPos = transform.position + offsets[i];
+                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }
