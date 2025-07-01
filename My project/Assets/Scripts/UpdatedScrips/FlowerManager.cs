@@ -29,7 +29,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     [Tooltip("This is the right part of the interaction zone")]
     [Range(0f, 1f)] public float maxInteractibleArea;
 
-
+    bool nextStage = false;
     public enum FlowerProgress
     {
         None, 
@@ -38,6 +38,9 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         SecondWait,
         ThirdStage
     }
+    FlowerProgress waterProgress = FlowerProgress.None;
+    FlowerProgress fireProgress = FlowerProgress.None;
+    FlowerProgress crystalProgress = FlowerProgress.None;
 
     [System.Serializable]
     public class FlowerAction
@@ -55,12 +58,11 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
     public List<FlowerAction> flowerActions;
     List<FlowerBool> flowerBools;
+    public int flowerBoolIndex = 0;
 
     void Start()
     {
-        FlowerProgress waterProgress = FlowerProgress.None;
-        FlowerProgress fireProgress = FlowerProgress.None;
-        FlowerProgress crystalProgress = FlowerProgress.None;
+        
 
         flowerActions = new List<FlowerAction>
         {
@@ -116,12 +118,15 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         #region Water
             new FlowerBool //water flower second stage
             {
-                boolCheck = () => waterFlower.firstStage && waterMeter.waterLevels[0] >= 100,
+                boolCheck = () => waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated || 
+                 waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage,
                 action = () =>
                 {
                     waterFlower.secondStage = true;
                     waterFlower.firstStage = false;
                     waterProgress = FlowerProgress.SecondStage;
+                    nextStage = false;
+                    flowerBoolIndex++;
                     waterMeter.WaterReset(0);
                 }
 
@@ -139,13 +144,16 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
             new FlowerBool //water flower third stage
             {
-                boolCheck = () => waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.SecondStage,
+                boolCheck = () => waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.SecondStage && waterMeter.waterPlantAutomated ||
+                 waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage,
                 action = () =>
                 {
                     waterFlower.thirdStage = true;
                     waterFlower.secondStage = false;
                     waterProgress = FlowerProgress.ThirdStage;
+                    nextStage = false;
                     waterMeter.WaterReset(0);
+
                 }
             },
 
@@ -160,7 +168,8 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
             new FlowerBool //water flower harvest
             {
-                boolCheck = () => waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.ThirdStage,
+                boolCheck = () => waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.ThirdStage && waterMeter.waterPlantAutomated ||
+                 waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage,
                 action = () =>
                 { 
                     waterFlower.thirdStage = false;
@@ -177,6 +186,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     waterFlower.plantedSeedCount = 0;
                     waterFlower.spawnedSecondStage = 0;
                     waterFlower.spawnedThirdStage = 0;
+                    nextStage = false;
                     waterMeter.WaterReset(0);
                 }
             },
@@ -333,7 +343,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             MobileInteraction();
         #endif
 
-        AutomateGarden();
+       // AutomateGarden();
 
         foreach (var condition in flowerBools)
         {
@@ -371,7 +381,12 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
                         int flowerIndex = flower.index;
                         waterMeter.Gain(flowerIndex);
+                        if (waterMeter.waterLevels[flowerIndex] >= 100 && !waterMeter.waterPlantAutomated)
+                        {
+                            nextStage = true;
+                            flowerBools[].action.Invoke();  
 
+                        }
                         break;
                     }
                 }
@@ -427,28 +442,20 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         return angle;
     }
 
-    void AutomateGarden()
+    public void AutomateGarden(int FlowerIndex)
     {
-        //0 = water, 1 = fire, 2 = crystal 
-        for (int i = 0; i < 3; i++)
+        if (FlowerIndex == 0)
         {
-            if (shopManagement.upgades.Length > i && shopManagement.upgades[i])
-            {
-                if (i < flowerActions.Count)
-                {
-                    flowerActions[i].action.Invoke();
-                }
-
-                foreach (var condition in flowerBools)
-                {
-                    if (condition.boolCheck())
-                    {
-                        condition.action.Invoke();
-                    }
-                }
-
-                waterMeter.Gain(i);
-            }
+            waterMeter.waterPlantAutomated = true;
         }
+        else if (FlowerIndex == 1)
+        {
+            waterMeter.firePlantAutomated = true ;
+        }
+        else if (FlowerIndex == 2)
+        {
+            waterMeter.crystalPlantAutomated= true ;
+        }
+
     }
 }

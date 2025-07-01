@@ -9150,18 +9150,27 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  waterGain: 5
+  waterGain: 100
   waterGainDefault:
-  - 2
-  - 2
-  - 2
+  - 5
+  - 5
+  - 5
   waterGainUpdate: 5
   timerEnd: 1
   waterSliders:
   - {fileID: 1135587160}
   - {fileID: 1560333390}
   - {fileID: 314151225}
-  flowerManager: {fileID: 0}
+  flowerManager: {fileID: 1964713410}
+  waterFlower: {fileID: 596389259}
+  fireFlower: {fileID: 229479759}
+  crystalFlower: {fileID: 1359573483}
+  waterPlantUnlocked: 1
+  firePlantUnlocked: 0
+  crystalPlantUnlocked: 0
+  waterPlantAutomated: 0
+  firePlantAutomated: 0
+  crystalPlantAutomated: 0
 --- !u!114 &1964713410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9211,6 +9220,7 @@ MonoBehaviour:
   fireIncome: {fileID: 1652475030}
   crystalIncome: {fileID: 472747868}
   totalAmount: {fileID: 627460269}
+  flowerManager: {fileID: 1964713410}
 --- !u!1 &1989001045
 GameObject:
   m_ObjectHideFlags: 0
