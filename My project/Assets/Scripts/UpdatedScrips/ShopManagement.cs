@@ -81,14 +81,14 @@ public class ShopManagementUpdated : MonoBehaviour
             
         }
 
-        else if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
+        else if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
         {
             upgades[1] = true;  //fire garden
             totalCurrency -= pricePerUpgrade[1];
             flowerManager.AutomateGarden(1);
         }
 
-        else if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
+        else if (totalCurrency >= pricePerUpgrade[2] && !upgades[2])
         {
             upgades[2] = true; //crystal garden
             totalCurrency -= pricePerUpgrade[2];

@@ -9209,7 +9209,9 @@ MonoBehaviour:
   - 0
   - 0
   waterGain: 10
+  lavaGain: 0
   autoWaterGain: 25
+  autoLavaGain: 0
   waterGainDefault:
   - 5
   - 5
@@ -9227,7 +9229,7 @@ MonoBehaviour:
   waterPlantUnlocked: 1
   firePlantUnlocked: 0
   crystalPlantUnlocked: 0
-  waterPlantAutomated: 1
+  waterPlantAutomated: 0
   firePlantAutomated: 0
   crystalPlantAutomated: 0
 --- !u!114 &1964713410

@@ -72,13 +72,15 @@ public class FireFlowerUpdated : MonoBehaviour
 
         if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[0])
         {
-            Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, Quaternion.identity, seedParents[nextSeedIndex].transform);
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
+                GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, Quaternion.identity, seedParents[nextSeedIndex].transform);
 
-            fireSeeds--;
-            plantedSeedCount++;
-            nextSeedIndex++;
-            currentSeeds.Add(instance);
+                fireSeeds--;
+                plantedSeedCount++;
+                currentSeeds.Add(instance);
+            }
 
             //Debug.Log("First stage water placed");
         }

@@ -60,12 +60,12 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
     public List<FlowerAction> flowerActions;
     public List<FlowerBool> flowerBools;
-    
+
 
 
     void Start()
     {
-        
+
 
         flowerActions = new List<FlowerAction>
         {
@@ -75,14 +75,14 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                 targetAngle = 120f,
                 action = () =>
                 {
-                    
+
                     if (waterFlower.waterSeeds > 0 && waterProgress == FlowerProgress.None && waterMeter.waterLevels[0] == 0)
                     {
                         waterFlower.firstStage = true;
                     }
-                
+
                     waterFlower.WaterFlowers();
-                    
+
                     if (waterMeter.waterLevels[0] >= 100 && !waterMeter.waterPlantAutomated)
                     {
                         nextStage = true;
@@ -97,7 +97,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         waterMeter.Gain(0);
                     }
-                
+
                 }
             },
 
@@ -112,16 +112,24 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         fireFlower.firstStage = true;
                     }
-                     
+
                     fireFlower.FireFlowers();
                     if (waterMeter.waterLevels[1] >= 100 && !waterMeter.firePlantAutomated)
                     {
                         nextStage = true;
                         FireFlowerManager();
                     }
+                    else if (waterMeter.waterLevels[0] >= 100 && waterMeter.firePlantAutomated)
+                    {
+                        FireFlowerManager();
+                    }
+                    if (fireFlower.firstStage && !waterMeter.firePlantAutomated || fireFlower.secondStage && !waterMeter.firePlantAutomated|| fireFlower.thirdStage && !waterMeter.firePlantAutomated)
+                    {
+                        waterMeter.Gain(1);
+                    }
                 }
             },
-            
+
             new FlowerAction //crystal flower
             {
                 index = 2,
@@ -138,9 +146,59 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             }
         };
 
+
+    }
+
+
+    public void WaterAction() 
+    {
+
+        if (waterFlower.waterSeeds > 0 && waterProgress == FlowerProgress.None && waterMeter.waterLevels[0] == 0)
+        {
+            waterFlower.firstStage = true;
+        }
+
+        waterFlower.WaterFlowers();
+
+        //if (waterMeter.waterLevels[0] >= 100 && !waterMeter.waterPlantAutomated)
+        //{
+        //    nextStage = true;
+        //    WaterFlowerManager();
+
+        //}
+        if (waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated)
+        {
+            WaterFlowerManager();
+        }
+        else if (waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated)
+        {
+            WaterFlowerManager();
+        }
         
     }
 
+    public void FireAction()
+    {
+        if (fireFlower.fireSeeds > 0 && fireProgress == FlowerProgress.None && waterMeter.waterLevels[1] == 0)
+        {
+            fireFlower.firstStage = true;
+        }
+
+        fireFlower.FireFlowers();
+        //if (waterMeter.waterLevels[1] >= 100 && !waterMeter.firePlantAutomated)
+        //{
+        //    nextStage = true;
+        //    FireFlowerManager();
+        //}
+        if (waterMeter.waterLevels[1] >= 100 && waterMeter.firePlantAutomated)
+        {
+            FireFlowerManager();
+        }
+        else if (waterMeter.waterLevels[0] >= 100 && waterMeter.firePlantAutomated)
+        {
+            FireFlowerManager();
+        }
+    }
     public void WaterFlowerManager() 
     {
         if (waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated ||
@@ -280,7 +338,11 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
         if (waterMeter.waterPlantAutomated)
         {
-            flowerActions[0].action.Invoke();
+            WaterAction();
+        }
+        if (waterMeter.firePlantAutomated)
+        {
+            FireAction();
         }
         // AutomateGarden();
 
