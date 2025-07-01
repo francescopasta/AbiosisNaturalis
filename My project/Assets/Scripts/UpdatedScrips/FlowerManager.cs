@@ -44,6 +44,10 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     FlowerProgress fireProgress = FlowerProgress.None;
     FlowerProgress crystalProgress = FlowerProgress.None;
 
+    public int crystalReward;
+    public int fireReward;
+    public int waterReward;
+
     [System.Serializable]
     public class FlowerAction
     {
@@ -255,7 +259,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             waterFlower.thirdStage = false;
             waterProgress = FlowerProgress.None;
             waterFlower.waterSeeds += waterFlower.rewardSeeds;
-            shopManagement.totalCurrency += shopManagement.currencyPerWater * waterFlower.currentThirdStage.Count;
+            shopManagement.totalCurrency += waterReward;
             foreach (var obj in waterFlower.currentThirdStage)
             {
                 if (obj != null)
@@ -298,7 +302,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             fireFlower.thirdStage = false;
             fireProgress = FlowerProgress.None;
             fireFlower.fireSeeds += fireFlower.rewardSeeds;
-            shopManagement.totalCurrency += shopManagement.currencyPerFire * fireFlower.currentThirdStage.Count;
+            shopManagement.totalCurrency += fireReward;
             foreach (var obj in fireFlower.currentThirdStage)
             {
                 if (obj != null)
@@ -341,7 +345,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             crystalFlower.thirdStage = false;
             crystalProgress = FlowerProgress.None;
             crystalFlower.crystalSeeds += crystalFlower.rewardSeeds;
-            shopManagement.totalCurrency += shopManagement.currencyPerCrystal * crystalFlower.currentThirdStage.Count;
+            shopManagement.totalCurrency += crystalReward;
             foreach (var obj in crystalFlower.currentThirdStage)
             {
                 if (obj != null)

@@ -734,7 +734,7 @@ MonoBehaviour:
   - {fileID: 6773261934872900189, guid: 0ed97e98b31997d4c95742633f2b237f, type: 3}
   seed: {fileID: 3482889464058130343, guid: db54fc90c6e2fe14fad0394567d7a4e8, type: 3}
   fireSeeds: 3
-  rewardSeeds: 3
+  rewardSeeds: 100
   firstStage: 0
   secondStage: 0
   thirdStage: 0
@@ -4881,7 +4881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Instructions: Hover your mouse over this variable.
-  target: {fileID: 0}
+  target: {fileID: 1116505518}
   rotationSpeed: 5
 --- !u!135 &1116505515
 SphereCollider:
@@ -7206,6 +7206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 239495091}
+  manager: {fileID: 0}
 --- !u!114 &1620542231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9134,6 +9135,7 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   musicSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
+  systemVolume: -1
 --- !u!114 &1964713409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9196,6 +9198,9 @@ MonoBehaviour:
   shopManagement: {fileID: 1964713411}
   minInteractibleArea: 0.4
   maxInteractibleArea: 0.6
+  crystalReward: 10
+  fireReward: 5
+  waterReward: 3
   flowerActions: []
 --- !u!114 &1964713411
 MonoBehaviour:
