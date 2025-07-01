@@ -42,6 +42,7 @@ public class ShopManagementUpdated : MonoBehaviour
     public TextMeshProUGUI crystalIncome;
     public TextMeshProUGUI totalAmount;
     public FlowerManagerUpdate flowerManager;
+    public WaterMeterUpdated waterMeterUpdated;
 
     public void Update()
     {
@@ -57,6 +58,7 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             gardenUnlock[0] = true; //fire garden
             firePanelUI.SetActive(false);
+            waterMeterUpdated.firePlantUnlocked = true;
             totalCurrency -= pricePerGarden[0];
         }
 

@@ -6350,7 +6350,7 @@ MonoBehaviour:
   currentSeeds: []
   currentSecondStage: []
   currentThirdStage: []
-  shopManagementUpdated: {fileID: 1964713411}
+  shopManagementUpdated: {fileID: 0}
 --- !u!1 &1362822660
 GameObject:
   m_ObjectHideFlags: 0
@@ -8226,6 +8226,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669925904}
   m_CullTransparentMesh: 1
+--- !u!1001 &1721156938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -39.959618
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -41.127216
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1825697807632916478, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
+      propertyPath: m_Name
+      value: water_1.2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
 --- !u!1 &1767950723
 GameObject:
   m_ObjectHideFlags: 0
@@ -9150,7 +9207,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  waterGain: 100
+  waterGain: 50
   waterGainDefault:
   - 5
   - 5
@@ -9193,6 +9250,9 @@ MonoBehaviour:
   minInteractibleArea: 0.4
   maxInteractibleArea: 0.6
   flowerActions: []
+  waterFlowerBoolIndex: 0
+  fireFlowerBoolIndex: 3
+  crystalFlowerBoolIndex: 0
 --- !u!114 &1964713411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9206,7 +9266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Instructions: Hover your mouse over this variable.
-  totalCurrency: 3
+  totalCurrency: 100
   currencyPerWater: 1
   currencyPerFire: 2
   currencyPerCrystal: 3
@@ -9221,6 +9281,7 @@ MonoBehaviour:
   crystalIncome: {fileID: 472747868}
   totalAmount: {fileID: 627460269}
   flowerManager: {fileID: 1964713410}
+  waterMeterUpdated: {fileID: 1964713409}
 --- !u!1 &1989001045
 GameObject:
   m_ObjectHideFlags: 0
@@ -10064,3 +10125,4 @@ SceneRoots:
   - {fileID: 2125598832}
   - {fileID: 1475844339}
   - {fileID: 430753724}
+  - {fileID: 1721156938}
