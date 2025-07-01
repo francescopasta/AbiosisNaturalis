@@ -37,18 +37,18 @@ public class ShopManagement : MonoBehaviour
     //UI
     public GameObject firePanelUI;
     public GameObject crystalPanelUI;
-    public TextMeshProUGUI waterIncome;
-    public TextMeshProUGUI fireIncome;
-    public TextMeshProUGUI crystalIncome;
+    //public TextMeshProUGUI waterIncome;
+    //public TextMeshProUGUI fireIncome;
+    //public TextMeshProUGUI crystalIncome;
     public TextMeshProUGUI totalAmount;
     public FlowerManagerUpdate flowerManager;
     public WaterMeterUpdated waterMeterUpdated;
 
     public void Update()
     {
-        waterIncome.text = currencyPerWater.ToString() + "per Flower";
-        fireIncome.text = currencyPerFire.ToString() + "per Flower";
-        crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
+        //waterIncome.text = currencyPerWater.ToString() + "per Flower";
+        //fireIncome.text = currencyPerFire.ToString() + "per Flower";
+        //crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
         totalAmount.text = totalCurrency.ToString(); 
     }
 
