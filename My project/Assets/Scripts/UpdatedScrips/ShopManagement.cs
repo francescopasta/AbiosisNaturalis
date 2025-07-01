@@ -66,6 +66,7 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             gardenUnlock[1] = true; //crystal garden
             crystalPanelUI.SetActive(false);
+            waterMeterUpdated.crystalPlantUnlocked = true;
             totalCurrency -= pricePerGarden[1];
         }
     }

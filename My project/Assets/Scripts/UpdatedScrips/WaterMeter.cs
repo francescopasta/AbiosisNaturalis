@@ -63,11 +63,15 @@ public class WaterMeterUpdated : MonoBehaviour
             {
                 Fill(0);
             }
-            if (firePlantUnlocked)
+            if (firePlantUnlocked && fireFlower.firstStage
+                || firePlantUnlocked && fireFlower.secondStage
+                || firePlantUnlocked && fireFlower.thirdStage)
             {
                 Fill(1);
             }
-            if (crystalPlantUnlocked)
+            if (crystalPlantUnlocked && crystalFlower.firstStage
+                || crystalPlantUnlocked && crystalFlower.secondStage
+                || crystalPlantUnlocked && crystalFlower.thirdStage)
             {
                 Fill(2);
             }

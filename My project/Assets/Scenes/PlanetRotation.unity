@@ -6350,7 +6350,7 @@ MonoBehaviour:
   currentSeeds: []
   currentSecondStage: []
   currentThirdStage: []
-  shopManagementUpdated: {fileID: 0}
+  shopManagementUpdated: {fileID: 1964713411}
 --- !u!1 &1362822660
 GameObject:
   m_ObjectHideFlags: 0
@@ -9250,9 +9250,6 @@ MonoBehaviour:
   minInteractibleArea: 0.4
   maxInteractibleArea: 0.6
   flowerActions: []
-  waterFlowerBoolIndex: 0
-  fireFlowerBoolIndex: 3
-  crystalFlowerBoolIndex: 0
 --- !u!114 &1964713411
 MonoBehaviour:
   m_ObjectHideFlags: 0
