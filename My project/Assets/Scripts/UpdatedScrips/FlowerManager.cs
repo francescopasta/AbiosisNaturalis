@@ -436,17 +436,8 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                             if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
                             {
                                 flower.action.Invoke();
+                                int flowerIndex = flower.index;
 
-                                foreach (var condtion in flowerBools)
-                                {
-                                    if (condtion.boolCheck())
-                                    {
-                                        condtion.action.Invoke();
-                                    }
-                                }
-
-                                int flowerIndex = flower.index; // you’ll need to store this in the flowerAction
-                                waterMeter.Gain(flowerIndex);
 
                                 break;
                             }
