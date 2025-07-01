@@ -40,12 +40,14 @@ public class ShopManagementUpdated : MonoBehaviour
     public TextMeshProUGUI waterIncome;
     public TextMeshProUGUI fireIncome;
     public TextMeshProUGUI crystalIncome;
+    public TextMeshProUGUI totalAmount;
 
     public void Update()
     {
         waterIncome.text = currencyPerWater.ToString() + "per Flower";
         fireIncome.text = currencyPerFire.ToString() + "per Flower";
         crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
+        totalAmount.text = totalCurrency.ToString(); 
     }
 
     public void ShoppingButtonNewGarden()
@@ -54,12 +56,14 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             gardenUnlock[0] = true; //fire garden
             firePanelUI.SetActive(false);
+            totalCurrency -= pricePerGarden[0];
         }
 
-        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1] && gardenUnlock[0])
+        else if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1] && gardenUnlock[0])
         {
             gardenUnlock[1] = true; //crystal garden
             crystalPanelUI.SetActive(false);
+            totalCurrency -= pricePerGarden[1];
         }
     }
 
@@ -68,16 +72,19 @@ public class ShopManagementUpdated : MonoBehaviour
         if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
         {
             upgades[0] = true; //water garden
+            totalCurrency -= pricePerUpgrade[0];
         }
 
-        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
+        else if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
         {
             upgades[1] = true;  //fire garden
+            totalCurrency -= pricePerUpgrade[1];
         }
 
-        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
+        else if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
         {
             upgades[2] = true; //crystal garden
+            totalCurrency -= pricePerUpgrade[2];
         }
     }
 }

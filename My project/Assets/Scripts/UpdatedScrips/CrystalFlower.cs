@@ -45,6 +45,8 @@ public class CrystalFlowerUpdated : MonoBehaviour
     GameObject selectedPrimary;
     GameObject selectedSecondary;
 
+    public ShopManagementUpdated shopManagementUpdated;
+
     public void CrystalFlowers()
     {
         Vector3[] offsets = {
@@ -66,7 +68,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             selectedSecondary = crystalThirdStage[index];
         }
 
-        if (firstStage && crystalSeeds > 0 && nextSeedIndex < offsets.Length)
+        if (firstStage && crystalSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[1])
         {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
             GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
@@ -78,7 +80,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             Debug.Log("First stage water placed");
         }
 
-        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount)
+        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
@@ -98,7 +100,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             Debug.Log("Second stage placed");
         }
 
-        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
+        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {

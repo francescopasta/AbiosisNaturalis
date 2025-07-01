@@ -47,6 +47,8 @@ public class FireFlowerUpdated : MonoBehaviour
 
     public List<GameObject> seedParents = new List<GameObject>();
 
+    public ShopManagementUpdated shopManagementUpdated;
+
     public void FireFlowers()
     {
         Vector3[] offsets = {
@@ -68,7 +70,7 @@ public class FireFlowerUpdated : MonoBehaviour
             selectedSecondary = fireThirdStage[index];
         }
 
-        if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length)
+        if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[0])
         {
             Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
             GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, Quaternion.identity, seedParents[nextSeedIndex].transform);
@@ -81,7 +83,7 @@ public class FireFlowerUpdated : MonoBehaviour
             Debug.Log("First stage water placed");
         }
 
-        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount)
+        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
@@ -101,7 +103,7 @@ public class FireFlowerUpdated : MonoBehaviour
             Debug.Log("Second stage placed");
         }
 
-        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
+        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
