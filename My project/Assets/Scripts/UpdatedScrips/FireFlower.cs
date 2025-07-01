@@ -58,7 +58,7 @@ public class FireFlowerUpdated : MonoBehaviour
 
         if (fireSecondStage.Length != fireThirdStage.Length)
         {
-            Debug.LogError("Second and Third stage are missmatched!");
+            //Debug.LogError("Second and Third stage are missmatched!");
             return;
         }
 
@@ -80,7 +80,7 @@ public class FireFlowerUpdated : MonoBehaviour
             nextSeedIndex++;
             currentSeeds.Add(instance);
 
-            Debug.Log("First stage water placed");
+            //Debug.Log("First stage water placed");
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
@@ -100,7 +100,7 @@ public class FireFlowerUpdated : MonoBehaviour
             }
             currentSeeds.Clear();
 
-            Debug.Log("Second stage placed");
+            //Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
@@ -120,7 +120,7 @@ public class FireFlowerUpdated : MonoBehaviour
             }
             currentSecondStage.Clear();
 
-            Debug.Log("Third stage placed");
+           // Debug.Log("Third stage placed");
         }
     }
 }

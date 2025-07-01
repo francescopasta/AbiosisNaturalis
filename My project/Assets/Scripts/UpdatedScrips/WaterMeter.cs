@@ -17,10 +17,11 @@ public class WaterMeterUpdated : MonoBehaviour
     public float[] waterLevels = new float[3];
     [Tooltip("This is the amount of water that will drain per a unit of time (timerEnd) will drain")]
     public float waterGain;
+    public float autoWaterGain;
     [Tooltip("This is the amount of water that will be added to the meter after the player clicks")]
     public float[] waterGainDefault = new float[3];
     [Tooltip("This variable is used for updating the _waterGainDefault_. This will activate when the player is filling up the water meter")]
-    public float waterGainUpdate;
+    public float tapWaterGain;
 
     float timerStart;
     [Tooltip("This is the rate at which the water will drain. Closer to 0, will drain faster")]
@@ -61,44 +62,51 @@ public class WaterMeterUpdated : MonoBehaviour
                 || waterPlantUnlocked && waterFlower.secondStage 
                 || waterPlantUnlocked && waterFlower.thirdStage)
             {
-                Fill(0);
+                if (!waterPlantAutomated)
+                {
+                    Fill(0, waterGain);
+                }
+                else
+                {
+                    Fill(0, autoWaterGain);
+                }
             }
             if (firePlantUnlocked && fireFlower.firstStage
                 || firePlantUnlocked && fireFlower.secondStage
                 || firePlantUnlocked && fireFlower.thirdStage)
             {
-                Fill(1);
+                Fill(1, waterGain);
             }
             if (crystalPlantUnlocked && crystalFlower.firstStage
                 || crystalPlantUnlocked && crystalFlower.secondStage
                 || crystalPlantUnlocked && crystalFlower.thirdStage)
             {
-                Fill(2);
+                Fill(2, waterGain);
             }
-            if (waterPlantAutomated)
-            {
-                StartCoroutine(Gain(0));
-            }
+            //if (waterPlantAutomated)
+            //{
+            //    //Gain(0);
+            //}
             timerStart -= timerEnd;
         }
     }
 
-    public void Fill(int flowerIndex)
+    public void Fill(int flowerIndex, float fillAmount)
     {
         if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) return;
 
         if (waterLevels[flowerIndex] >= 0)
         {
-            waterLevels[flowerIndex] += waterGain;
+            waterLevels[flowerIndex] += fillAmount;
             waterLevels[flowerIndex] = Mathf.Clamp(waterLevels[flowerIndex], 0, 100);
 
             if (waterSliders[flowerIndex] != null)
                 waterSliders[flowerIndex].value = waterLevels[flowerIndex];
 
-            if (waterLevels[flowerIndex] == 0 && waterGainDefault[flowerIndex] == 0)
-            {
-                waterGainDefault[flowerIndex] = waterGainUpdate;
-            }
+            //if (waterLevels[flowerIndex] == 0 && waterGainDefault[flowerIndex] == 0)
+            //{
+            //    waterGainDefault[flowerIndex] = tapWaterGain;
+            //}
             if (waterLevels[flowerIndex] >= 100)
             {
                 waterLevels[flowerIndex] = 100;
@@ -111,25 +119,28 @@ public class WaterMeterUpdated : MonoBehaviour
         waterLevels[flowerIndex] = 0;
     }
 
-    public IEnumerator Gain(int flowerIndex)
+    public void Gain(int flowerIndex)
     {
-        if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) yield return false;
+        //if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) yield return false;
 
-        float gainAmount = (waterLevels[flowerIndex] == 0) ? waterGainUpdate : waterGainDefault[flowerIndex];
-        
+        Debug.Log("AddingWater");
 
-        waterLevels[flowerIndex] += gainAmount * Time.deltaTime;
+        waterLevels[flowerIndex] += tapWaterGain;
+
         waterLevels[flowerIndex] = Mathf.Clamp(waterLevels[flowerIndex], 0, 100);
 
         if (waterSliders[flowerIndex] != null)
             waterSliders[flowerIndex].value = waterLevels[flowerIndex];
         //// Disable further gain if flower is full
-        //if (waterLevels[flowerIndex] >= 100)
-        //{
-            
-        //}
+        if (waterLevels[flowerIndex] >= 100)
+        {
+            waterLevels[flowerIndex] = 100;
+        }
     }
-
+    public void AutomatedFilling(int flowerIndex) 
+    {
+        waterLevels[flowerIndex] += (tapWaterGain) * Time.deltaTime;
+    }
     /* void Start()
      {
          for (int i = 0; i < waterSliders.Length; i++)

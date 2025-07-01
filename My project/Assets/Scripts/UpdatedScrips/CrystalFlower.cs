@@ -77,7 +77,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             plantedSeedCount++;
             nextSeedIndex++;
             currentSeeds.Add(instance);
-            Debug.Log("First stage water placed");
+            //Debug.Log("First stage water placed");
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
@@ -97,7 +97,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             }
             currentSeeds.Clear();
 
-            Debug.Log("Second stage placed");
+          //  Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
@@ -117,7 +117,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
             }
             currentSecondStage.Clear();
 
-            Debug.Log("Third stage placed");
+           // Debug.Log("Third stage placed");
         }
     }
 }

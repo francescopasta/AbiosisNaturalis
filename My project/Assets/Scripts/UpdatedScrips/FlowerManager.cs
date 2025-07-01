@@ -75,18 +75,29 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                 targetAngle = 120f,
                 action = () =>
                 {
+                    
                     if (waterFlower.waterSeeds > 0 && waterProgress == FlowerProgress.None && waterMeter.waterLevels[0] == 0)
                     {
                         waterFlower.firstStage = true;
                     }
                 
                     waterFlower.WaterFlowers();
+                    
                     if (waterMeter.waterLevels[0] >= 100 && !waterMeter.waterPlantAutomated)
                     {
                         nextStage = true;
                         WaterFlowerManager();
 
                     }
+                    else if (waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated)
+                    {
+                        WaterFlowerManager();
+                    }
+                    if (waterFlower.firstStage && !waterMeter.waterPlantAutomated || waterFlower.secondStage && !waterMeter.waterPlantAutomated|| waterFlower.thirdStage && !waterMeter.waterPlantAutomated)
+                    {
+                        waterMeter.Gain(0);
+                    }
+                
                 }
             },
 
@@ -263,11 +274,15 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         ///Chooses which code to run, depanding on the build
         #if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
         ComputerInteraction();
-        #elif UNITY_IOS || UNITY_ANDROID
+#elif UNITY_IOS || UNITY_ANDROID
             MobileInteraction();
-        #endif
+#endif
 
-       // AutomateGarden();
+        if (waterMeter.waterPlantAutomated)
+        {
+            flowerActions[0].action.Invoke();
+        }
+        // AutomateGarden();
 
         //foreach (var condition in flowerBools)
         //{
@@ -294,34 +309,8 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     if (Mathf.Abs(angleZ - flower.targetAngle) <= 1f)
                     {
                         flower.action.Invoke();
-
-                        //foreach (var condtion in flowerBools)
-                        //{
-                        //    if (condtion.boolCheck())
-                        //    {
-                        //        condtion.action.Invoke();
-                        //    }
-                        //}
-
                         int flowerIndex = flower.index;
-                        //waterMeter.Gain(flowerIndex);
-                        //if (flowerIndex == 0)
-                        //{
-                        //    if (waterMeter.waterLevels[flowerIndex] >= 100 && !waterMeter.waterPlantAutomated)
-                        //    {
-                        //        nextStage = true;
-                        //        flowerBools[waterFlowerBoolIndex].action.Invoke();
-
-                        //    }
-                        //}
-                        //else if (flowerIndex == 1)
-                        //{
-                        //    if (waterMeter.waterLevels[flowerIndex] >= 100 && !waterMeter.firePlantAutomated)
-                        //    {
-                        //        nextStage = true;
-                        //        flowerBools[fireFlowerBoolIndex].action.Invoke();
-                        //    }
-                        //}
+                       
                         
                         break;
                     }

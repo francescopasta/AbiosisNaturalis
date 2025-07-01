@@ -46,6 +46,7 @@ public class WaterFlowerUpdated : MonoBehaviour
     GameObject selectedSecondary;
 
     public List<GameObject> seedParents = new List<GameObject>();
+    public WaterMeterUpdated waterMeter;
     public void WaterFlowers()
     {
         Vector3[] offsets = {
@@ -69,24 +70,18 @@ public class WaterFlowerUpdated : MonoBehaviour
 
         if (firstStage && waterSeeds > 0 && nextSeedIndex < offsets.Length) //clear nextSeed
         {
-            
-            //Vector3 spawnPos = new Vector3(transform.position.x , transform.position.y , transform.position.z );
-            GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, transform.rotation, seedParents[nextSeedIndex].transform);
+            PlantSeedFirstStage();
 
-            waterSeeds--;
-            plantedSeedCount++;
-            nextSeedIndex++;
-            currentSeeds.Add(instance);
-           
-            Debug.Log("First stage water placed");
+
+            // Debug.Log("First stage water placed");
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount) //Clear SpawnedSeeds
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
+                
+                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -98,7 +93,7 @@ public class WaterFlowerUpdated : MonoBehaviour
             }
             currentSeeds.Clear();
 
-            Debug.Log("Second stage placed");
+           // Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
@@ -106,7 +101,7 @@ public class WaterFlowerUpdated : MonoBehaviour
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
                 Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
+                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }
@@ -118,7 +113,20 @@ public class WaterFlowerUpdated : MonoBehaviour
             }
             currentSecondStage.Clear();
 
-            Debug.Log("Third stage placed");
+           // Debug.Log("Third stage placed");
+        }
+    }
+    public void PlantSeedFirstStage() 
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            //Vector3 spawnPos = new Vector3(transform.position.x , transform.position.y , transform.position.z );
+            GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+
+            waterSeeds--;
+            plantedSeedCount++;
+            nextSeedIndex++;
+            currentSeeds.Add(instance);
         }
     }
 }
