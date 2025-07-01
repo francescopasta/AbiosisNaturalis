@@ -41,6 +41,8 @@ public class ShopManagementUpdated : MonoBehaviour
     public TextMeshProUGUI fireIncome;
     public TextMeshProUGUI crystalIncome;
     public TextMeshProUGUI totalAmount;
+    public FlowerManagerUpdate flowerManager;
+    public WaterMeterUpdated waterMeterUpdated;
 
     public void Update()
     {
@@ -56,6 +58,7 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             gardenUnlock[0] = true; //fire garden
             firePanelUI.SetActive(false);
+            waterMeterUpdated.firePlantUnlocked = true;
             totalCurrency -= pricePerGarden[0];
         }
 
@@ -63,6 +66,7 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             gardenUnlock[1] = true; //crystal garden
             crystalPanelUI.SetActive(false);
+            waterMeterUpdated.crystalPlantUnlocked = true;
             totalCurrency -= pricePerGarden[1];
         }
     }
@@ -73,18 +77,22 @@ public class ShopManagementUpdated : MonoBehaviour
         {
             upgades[0] = true; //water garden
             totalCurrency -= pricePerUpgrade[0];
+            flowerManager.AutomateGarden(0);
+            
         }
 
         else if (totalCurrency >= pricePerUpgrade[1] && !upgades[1] && upgades[0])
         {
             upgades[1] = true;  //fire garden
             totalCurrency -= pricePerUpgrade[1];
+            flowerManager.AutomateGarden(1);
         }
 
         else if (totalCurrency >= pricePerUpgrade[2] && !upgades[2] && upgades[1])
         {
             upgades[2] = true; //crystal garden
             totalCurrency -= pricePerUpgrade[2];
+            flowerManager.AutomateGarden(2);
         }
     }
 }

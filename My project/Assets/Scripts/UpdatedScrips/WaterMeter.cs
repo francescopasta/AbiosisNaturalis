@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,15 +28,27 @@ public class WaterMeterUpdated : MonoBehaviour
 
     [SerializeField] Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
 
-    public FlowerManager flowerManager;
+    public FlowerManagerUpdate flowerManager;
+    public WaterFlowerUpdated waterFlower;
+    public FireFlowerUpdated fireFlower;
+    public CrystalFlowerUpdated crystalFlower; 
+
+    public bool waterPlantUnlocked = true;
+    public bool firePlantUnlocked = false;
+    public bool crystalPlantUnlocked = false;
+
+    public bool waterPlantAutomated = false;
+    public bool firePlantAutomated = false;
+    public bool crystalPlantAutomated = false;
 
     void Start()
     {
         if (waterSliders == null)
-        { 
+        {
             Debug.LogError("There is no water meter");
             return;
         }
+        
     }
 
     void Update()
@@ -44,11 +57,28 @@ public class WaterMeterUpdated : MonoBehaviour
 
         if (timerStart > timerEnd)
         {
-            for (int i = 0; i < waterLevels.Length; i++)
+            if (waterPlantUnlocked && waterFlower.firstStage 
+                || waterPlantUnlocked && waterFlower.secondStage 
+                || waterPlantUnlocked && waterFlower.thirdStage)
             {
-                Fill(i);
+                Fill(0);
             }
-
+            if (firePlantUnlocked && fireFlower.firstStage
+                || firePlantUnlocked && fireFlower.secondStage
+                || firePlantUnlocked && fireFlower.thirdStage)
+            {
+                Fill(1);
+            }
+            if (crystalPlantUnlocked && crystalFlower.firstStage
+                || crystalPlantUnlocked && crystalFlower.secondStage
+                || crystalPlantUnlocked && crystalFlower.thirdStage)
+            {
+                Fill(2);
+            }
+            if (waterPlantAutomated)
+            {
+                StartCoroutine(Gain(0));
+            }
             timerStart -= timerEnd;
         }
     }
@@ -57,7 +87,7 @@ public class WaterMeterUpdated : MonoBehaviour
     {
         if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) return;
 
-        if (waterLevels[flowerIndex] > 0)
+        if (waterLevels[flowerIndex] >= 0)
         {
             waterLevels[flowerIndex] += waterGain;
             waterLevels[flowerIndex] = Mathf.Clamp(waterLevels[flowerIndex], 0, 100);
@@ -69,6 +99,10 @@ public class WaterMeterUpdated : MonoBehaviour
             {
                 waterGainDefault[flowerIndex] = waterGainUpdate;
             }
+            if (waterLevels[flowerIndex] >= 100)
+            {
+                waterLevels[flowerIndex] = 100;
+            }
         }
     }
 
@@ -77,18 +111,18 @@ public class WaterMeterUpdated : MonoBehaviour
         waterLevels[flowerIndex] = 0;
     }
 
-    public void Gain(int flowerIndex)
+    public IEnumerator Gain(int flowerIndex)
     {
-        if(flowerIndex < 0 || flowerIndex >= waterLevels.Length) return;
+        if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) yield return false;
 
         float gainAmount = (waterLevels[flowerIndex] == 0) ? waterGainUpdate : waterGainDefault[flowerIndex];
+        
 
-        waterLevels[flowerIndex] += gainAmount;
+        waterLevels[flowerIndex] += gainAmount * Time.deltaTime;
         waterLevels[flowerIndex] = Mathf.Clamp(waterLevels[flowerIndex], 0, 100);
 
         if (waterSliders[flowerIndex] != null)
             waterSliders[flowerIndex].value = waterLevels[flowerIndex];
-
         //// Disable further gain if flower is full
         //if (waterLevels[flowerIndex] >= 100)
         //{

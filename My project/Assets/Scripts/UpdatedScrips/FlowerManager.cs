@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.WSA;
 
@@ -29,7 +31,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     [Tooltip("This is the right part of the interaction zone")]
     [Range(0f, 1f)] public float maxInteractibleArea;
 
-
+    bool nextStage = false;
     public enum FlowerProgress
     {
         None, 
@@ -38,6 +40,9 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         SecondWait,
         ThirdStage
     }
+    FlowerProgress waterProgress = FlowerProgress.None;
+    FlowerProgress fireProgress = FlowerProgress.None;
+    FlowerProgress crystalProgress = FlowerProgress.None;
 
     [System.Serializable]
     public class FlowerAction
@@ -54,13 +59,13 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     }
 
     public List<FlowerAction> flowerActions;
-    List<FlowerBool> flowerBools;
+    public List<FlowerBool> flowerBools;
+    
+
 
     void Start()
     {
-        FlowerProgress waterProgress = FlowerProgress.None;
-        FlowerProgress fireProgress = FlowerProgress.None;
-        FlowerProgress crystalProgress = FlowerProgress.None;
+        
 
         flowerActions = new List<FlowerAction>
         {
@@ -76,6 +81,12 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     }
                 
                     waterFlower.WaterFlowers();
+                    if (waterMeter.waterLevels[0] >= 100 && !waterMeter.waterPlantAutomated)
+                    {
+                        nextStage = true;
+                        WaterFlowerManager();
+
+                    }
                 }
             },
 
@@ -90,8 +101,13 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         fireFlower.firstStage = true;
                     }
-
+                     
                     fireFlower.FireFlowers();
+                    if (waterMeter.waterLevels[1] >= 100 && !waterMeter.firePlantAutomated)
+                    {
+                        nextStage = true;
+                        FireFlowerManager();
+                    }
                 }
             },
             
@@ -111,219 +127,137 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             }
         };
 
-        flowerBools = new List<FlowerBool>
+        
+    }
+
+    public void WaterFlowerManager() 
+    {
+        if (waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated ||
+        waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage)
         {
-        #region Water
-            new FlowerBool //water flower second stage
+            waterFlower.secondStage = true;
+            waterFlower.firstStage = false;
+            waterProgress = FlowerProgress.SecondStage;
+            nextStage = false;
+            waterMeter.WaterReset(0);
+        }
+        else if (waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.SecondStage && waterMeter.waterPlantAutomated ||
+        waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && nextStage)
+        {
+            waterFlower.thirdStage = true;
+            waterFlower.secondStage = false;
+            waterProgress = FlowerProgress.ThirdStage;
+            nextStage = false;
+            waterMeter.WaterReset(0);
+        }
+        else if (waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.ThirdStage && waterMeter.waterPlantAutomated ||
+        waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && nextStage)
+        {
+            waterFlower.thirdStage = false;
+            waterProgress = FlowerProgress.None;
+            waterFlower.waterSeeds += waterFlower.rewardSeeds;
+            shopManagement.totalCurrency += shopManagement.currencyPerWater * waterFlower.currentThirdStage.Count;
+            foreach (var obj in waterFlower.currentThirdStage)
             {
-                boolCheck = () => waterFlower.firstStage && waterMeter.waterLevels[0] >= 100,
-                action = () =>
-                {
-                    waterFlower.secondStage = true;
-                    waterFlower.firstStage = false;
-                    waterProgress = FlowerProgress.SecondStage;
-                    waterMeter.WaterReset(0);
-                }
+                if (obj != null)
+                    Destroy(obj);
+            }
+            waterFlower.currentThirdStage.Clear();
+            waterFlower.nextSeedIndex = 0;
+            waterFlower.plantedSeedCount = 0;
+            waterFlower.spawnedSecondStage = 0;
+            waterFlower.spawnedThirdStage = 0;
+            nextStage = false;
+            waterMeter.WaterReset(0);
+        }
 
-            },
-            
-            //new FlowerBool //wait between stage 2 and 3
-            //{
-            //    boolCheck = () => waterProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[0] == 0,
-            //    action = () =>
-            //    {
-            //        waterProgress = FlowerProgress.SecondStage;
-            //    }
 
-            //},
-
-            new FlowerBool //water flower third stage
+    }
+    public void FireFlowerManager()
+    {
+        if (fireFlower.firstStage && waterMeter.waterLevels[1] >= 100 && waterMeter.firePlantAutomated ||
+        fireFlower.firstStage && waterMeter.waterLevels[1] >= 100 && nextStage)
+        {
+            fireFlower.secondStage = true;
+            fireFlower.firstStage = false;
+            fireProgress = FlowerProgress.SecondStage;
+            nextStage = false;
+            waterMeter.WaterReset(1);
+        }
+        else if (fireFlower.secondStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.SecondStage && waterMeter.firePlantAutomated ||
+         fireFlower.secondStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.SecondStage  && nextStage)
+        {
+            fireFlower.thirdStage = true;
+            fireFlower.secondStage = false;
+            fireProgress = FlowerProgress.ThirdStage;
+            nextStage = false;
+            waterMeter.WaterReset(1);
+        }
+        else if (fireFlower.thirdStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.ThirdStage && waterMeter.firePlantAutomated ||
+         fireFlower.thirdStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.ThirdStage && nextStage)
+        {
+            fireFlower.thirdStage = false;
+            fireProgress = FlowerProgress.None;
+            fireFlower.fireSeeds += fireFlower.rewardSeeds;
+            shopManagement.totalCurrency += shopManagement.currencyPerFire * fireFlower.currentThirdStage.Count;
+            foreach (var obj in fireFlower.currentThirdStage)
             {
-                boolCheck = () => waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.SecondStage,
-                action = () =>
-                {
-                    waterFlower.thirdStage = true;
-                    waterFlower.secondStage = false;
-                    waterProgress = FlowerProgress.ThirdStage;
-                    waterMeter.WaterReset(0);
-                }
-            },
+                if (obj != null)
+                    Destroy(obj);
+            }
+            fireFlower.currentThirdStage.Clear();
+            fireFlower.nextSeedIndex = 0;
+            fireFlower.plantedSeedCount = 0;
+            fireFlower.spawnedSecondStage = 0;
+            fireFlower.spawnedThirdStage = 0;
+            nextStage = false;
+            waterMeter.WaterReset(1);
+        }
 
-            //new FlowerBool //wait between stage 3 and harvest
-            //{
-            //    boolCheck = () => waterProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[0] == 0,
-            //    action = () =>
-            //    {
-            //        waterProgress = FlowerProgress.ThirdStage;
-            //    }
-            //},
 
-            new FlowerBool //water flower harvest
+    }
+    public void CrystalFlowerManager()
+    {
+        if (crystalFlower.firstStage && waterMeter.waterLevels[2] >= 100 && waterMeter.crystalPlantAutomated ||
+        crystalFlower.firstStage && waterMeter.waterLevels[2] >= 100 && nextStage)
+        {
+            crystalFlower.secondStage = true;
+            crystalFlower.firstStage = false;
+            crystalProgress = FlowerProgress.SecondStage;
+            nextStage = false;
+            waterMeter.WaterReset(2);
+        }
+        else if (crystalFlower.secondStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.SecondStage && waterMeter.crystalPlantAutomated ||
+        crystalFlower.secondStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.SecondStage && nextStage)
+        {
+            crystalFlower.thirdStage = true;
+            crystalFlower.secondStage = false;
+            crystalProgress = FlowerProgress.ThirdStage;
+            nextStage = false;  
+            waterMeter.WaterReset(2);
+        }
+        else if (crystalFlower.thirdStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.ThirdStage && waterMeter.crystalPlantAutomated ||
+        crystalFlower.thirdStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.ThirdStage && nextStage)
+        {
+            crystalFlower.thirdStage = false;
+            crystalProgress = FlowerProgress.None;
+            crystalFlower.crystalSeeds += crystalFlower.rewardSeeds;
+            shopManagement.totalCurrency += shopManagement.currencyPerCrystal * crystalFlower.currentThirdStage.Count;
+            foreach (var obj in crystalFlower.currentThirdStage)
             {
-                boolCheck = () => waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.ThirdStage,
-                action = () =>
-                { 
-                    waterFlower.thirdStage = false;
-                    waterProgress = FlowerProgress.None;
-                    waterFlower.waterSeeds += waterFlower.rewardSeeds;
-                    shopManagement.totalCurrency += shopManagement.currencyPerWater * waterFlower.currentThirdStage.Count;
-                    foreach (var obj in waterFlower.currentThirdStage)
-                    {
-                        if(obj != null)
-                        Destroy(obj);
-                    }
-                    waterFlower.currentThirdStage.Clear();
-                    waterFlower.nextSeedIndex = 0;
-                    waterFlower.plantedSeedCount = 0;
-                    waterFlower.spawnedSecondStage = 0;
-                    waterFlower.spawnedThirdStage = 0;
-                    waterMeter.WaterReset(0);
-                }
-            },
-            #endregion
+                if (obj != null)
+                    Destroy(obj);
+            }
+            crystalFlower.currentThirdStage.Clear();
+            crystalFlower.nextSeedIndex = 0;
+            crystalFlower.plantedSeedCount = 0;
+            crystalFlower.spawnedSecondStage = 0;
+            crystalFlower.spawnedThirdStage = 0;
+            waterMeter.WaterReset(2);
+        }
 
-        #region Crystal
-            new FlowerBool //crystal flower second stage
-            {
-                boolCheck = () => crystalFlower.firstStage && waterMeter.waterLevels[2] >= 100,
-                action = () =>
-                {
-                    crystalFlower.secondStage = true;
-                    crystalFlower.firstStage = false;
-                    crystalProgress = FlowerProgress.SecondStage;
-                    waterMeter.WaterReset(2);
-                }
 
-            },
-
-            //new FlowerBool //wait between stage 2 and 3
-            //{
-            //    boolCheck = () => crystalProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[2] == 0,
-            //    action = () =>
-            //    {
-            //        crystalProgress = FlowerProgress.SecondStage;
-            //    }
-
-            //},
-
-            new FlowerBool //crystal flower third stage
-            {
-                boolCheck = () => crystalFlower.secondStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.SecondStage,
-                action = () =>
-                {
-                    crystalFlower.thirdStage = true;
-                    crystalFlower.secondStage = false;
-                    crystalProgress = FlowerProgress.ThirdStage;
-                    waterMeter.WaterReset(2);
-                }
-            },
-
-            //new FlowerBool //wait between stage 3 and harvest
-            //{
-            //    boolCheck = () => crystalProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[2] == 0,
-            //    action = () =>
-            //    {
-            //        crystalProgress = FlowerProgress.ThirdStage;
-            //    }
-            //},
-
-            new FlowerBool //crystal flower harvest
-            {
-                boolCheck = () => crystalFlower.thirdStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.ThirdStage,
-                action = () =>
-                {
-                    crystalFlower.thirdStage = false;
-                    crystalProgress = FlowerProgress.None;
-                    crystalFlower.crystalSeeds += crystalFlower.rewardSeeds;
-                    shopManagement.totalCurrency += shopManagement.currencyPerCrystal * crystalFlower.currentThirdStage.Count;
-                    foreach(var obj in crystalFlower.currentThirdStage)
-                    {
-                        if(obj != null)
-                        Destroy(obj);
-                    }
-                    crystalFlower.currentThirdStage.Clear();
-                    crystalFlower.nextSeedIndex = 0;
-                    crystalFlower.plantedSeedCount = 0;
-                    crystalFlower.spawnedSecondStage = 0;
-                    crystalFlower.spawnedThirdStage = 0;
-                    waterMeter.WaterReset(2);
-                }
-            },
-
-            #endregion
-
-        #region Fire
-            new FlowerBool //fire flower second stage
-            {
-                boolCheck = () => fireFlower.firstStage && waterMeter.waterLevels[1] >= 100,
-                action = () =>
-                {
-                    fireFlower.secondStage = true;
-                    fireFlower.firstStage = false;
-                    fireProgress = FlowerProgress.SecondStage;
-                    waterMeter.WaterReset(1);
-                }
-
-            },
-
-            //new FlowerBool //wait between stage 2 and 3
-            //{
-            //    boolCheck = () => fireProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[1] == 0,
-            //    action = () =>
-            //    {
-            //        fireProgress = FlowerProgress.SecondStage;
-            //    }
-
-            //},
-
-            new FlowerBool //fire flower third stage
-            {
-                boolCheck = () => fireFlower.secondStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.SecondStage,
-                action = () =>
-                {
-                    fireFlower.thirdStage = true;
-                    fireFlower.secondStage = false;
-                    fireProgress = FlowerProgress.ThirdStage;
-                    waterMeter.WaterReset(1);
-                }
-            },
-
-            //new FlowerBool //wait between stage 3 and harvest
-            //{
-            //    boolCheck = () => fireProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[1] == 0,
-            //    action = () =>
-            //    {
-            //        fireProgress = FlowerProgress.ThirdStage;
-            //    }
-            //},
-
-            new FlowerBool //fire flower harvest
-            {
-                boolCheck = () => fireFlower.thirdStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.ThirdStage,
-                action = () =>
-                {
-                    fireFlower.thirdStage = false;
-                    fireProgress = FlowerProgress.None;
-                    fireFlower.fireSeeds += fireFlower.rewardSeeds;
-                    shopManagement.totalCurrency += shopManagement.currencyPerFire * fireFlower.currentThirdStage.Count;
-                    foreach(var obj in fireFlower.currentThirdStage)
-                    {
-                        if(obj != null)
-                        Destroy(obj);
-                    }
-                    fireFlower.currentThirdStage.Clear();
-                    fireFlower.nextSeedIndex = 0;
-                    fireFlower.plantedSeedCount = 0;
-                    fireFlower.spawnedSecondStage = 0;
-                    fireFlower.spawnedThirdStage = 0;
-                    waterMeter.WaterReset(1);
-                }
-            },
-
-#endregion
-        };
-    }        
-
+    }
     void Update()
     {
         ///Chooses which code to run, depanding on the build
@@ -333,15 +267,15 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             MobileInteraction();
         #endif
 
-        AutomateGarden();
+       // AutomateGarden();
 
-        foreach (var condition in flowerBools)
-        {
-            if (condition.boolCheck())
-            {
-                condition.action();
-            }
-        }
+        //foreach (var condition in flowerBools)
+        //{
+        //    if (condition.boolCheck())
+        //    {
+        //        condition.action();
+        //    }
+        //}
     }
 
     void ComputerInteraction()
@@ -361,17 +295,34 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         flower.action.Invoke();
 
-                        foreach (var condtion in flowerBools)
-                        {
-                            if (condtion.boolCheck())
-                            {
-                                condtion.action.Invoke();
-                            }
-                        }
+                        //foreach (var condtion in flowerBools)
+                        //{
+                        //    if (condtion.boolCheck())
+                        //    {
+                        //        condtion.action.Invoke();
+                        //    }
+                        //}
 
                         int flowerIndex = flower.index;
-                        waterMeter.Gain(flowerIndex);
+                        //waterMeter.Gain(flowerIndex);
+                        //if (flowerIndex == 0)
+                        //{
+                        //    if (waterMeter.waterLevels[flowerIndex] >= 100 && !waterMeter.waterPlantAutomated)
+                        //    {
+                        //        nextStage = true;
+                        //        flowerBools[waterFlowerBoolIndex].action.Invoke();
 
+                        //    }
+                        //}
+                        //else if (flowerIndex == 1)
+                        //{
+                        //    if (waterMeter.waterLevels[flowerIndex] >= 100 && !waterMeter.firePlantAutomated)
+                        //    {
+                        //        nextStage = true;
+                        //        flowerBools[fireFlowerBoolIndex].action.Invoke();
+                        //    }
+                        //}
+                        
                         break;
                     }
                 }
@@ -427,28 +378,244 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         return angle;
     }
 
-    void AutomateGarden()
+    public void AutomateGarden(int FlowerIndex)
     {
-        //0 = water, 1 = fire, 2 = crystal 
-        for (int i = 0; i < 3; i++)
+        if (FlowerIndex == 0)
         {
-            if (shopManagement.upgades.Length > i && shopManagement.upgades[i])
-            {
-                if (i < flowerActions.Count)
-                {
-                    flowerActions[i].action.Invoke();
-                }
-
-                foreach (var condition in flowerBools)
-                {
-                    if (condition.boolCheck())
-                    {
-                        condition.action.Invoke();
-                    }
-                }
-
-                waterMeter.Gain(i);
-            }
+            waterMeter.waterPlantAutomated = true;
         }
+        else if (FlowerIndex == 1)
+        {
+            waterMeter.firePlantAutomated = true ;
+        }
+        else if (FlowerIndex == 2)
+        {
+            waterMeter.crystalPlantAutomated= true ;
+        }
+
     }
 }
+// flowerBools = new List<FlowerBool>
+        //{
+        //#region Water
+        //    new FlowerBool //water flower second stage
+        //    {
+        //        boolCheck = () => waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated || 
+        //         waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage,
+        //        action = () =>
+        //        {
+        //            waterFlower.secondStage = true;
+        //            waterFlower.firstStage = false;
+        //            waterProgress = FlowerProgress.SecondStage;
+        //            nextStage = false;
+        //            waterMeter.WaterReset(0);
+        //        }
+
+//    },
+
+//    //new FlowerBool //wait between stage 2 and 3
+//    //{
+//    //    boolCheck = () => waterProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[0] == 0,
+//    //    action = () =>
+//    //    {
+//    //        waterProgress = FlowerProgress.SecondStage;
+//    //    }
+
+//    //},
+
+//    new FlowerBool //water flower third stage
+//    {
+//        boolCheck = () => waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.SecondStage && waterMeter.waterPlantAutomated ||
+//         waterFlower.secondStage && waterMeter.waterLevels[0] >= 100 && nextStage,
+//        action = () =>
+//        {
+//            waterFlower.thirdStage = true;
+//            waterFlower.secondStage = false;
+//            waterProgress = FlowerProgress.ThirdStage;
+//            nextStage = false;
+//            waterMeter.WaterReset(0);
+
+//        }
+//    },
+
+//    //new FlowerBool //wait between stage 3 and harvest
+//    //{
+//    //    boolCheck = () => waterProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[0] == 0,
+//    //    action = () =>
+//    //    {
+//    //        waterProgress = FlowerProgress.ThirdStage;
+//    //    }
+//    //},
+
+//    new FlowerBool //water flower harvest
+//    {
+//        boolCheck = () => waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && waterProgress == FlowerProgress.ThirdStage && waterMeter.waterPlantAutomated ||
+//         waterFlower.thirdStage && waterMeter.waterLevels[0] >= 100 && nextStage,
+//        action = () =>
+//        { 
+//            waterFlower.thirdStage = false;
+//            waterProgress = FlowerProgress.None;
+//            waterFlower.waterSeeds += waterFlower.rewardSeeds;
+//            shopManagement.totalCurrency += shopManagement.currencyPerWater * waterFlower.currentThirdStage.Count;
+//            foreach (var obj in waterFlower.currentThirdStage)
+//            {
+//                if(obj != null)
+//                Destroy(obj);
+//            }
+//            waterFlower.currentThirdStage.Clear();
+//            waterFlower.nextSeedIndex = 0;
+//            waterFlower.plantedSeedCount = 0;
+//            waterFlower.spawnedSecondStage = 0;
+//            waterFlower.spawnedThirdStage = 0;
+//            nextStage = false;
+//            waterMeter.WaterReset(0);
+//        }
+//    },
+//#endregion
+
+//#region Crystal
+//    new FlowerBool //crystal flower second stage
+//    {
+//        boolCheck = () => crystalFlower.firstStage && waterMeter.waterLevels[2] >= 100,
+//        action = () =>
+//        {
+//            crystalFlower.secondStage = true;
+//            crystalFlower.firstStage = false;
+//            crystalProgress = FlowerProgress.SecondStage;
+//            waterMeter.WaterReset(2);
+//        }
+
+//    },
+
+//    //new FlowerBool //wait between stage 2 and 3
+//    //{
+//    //    boolCheck = () => crystalProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[2] == 0,
+//    //    action = () =>
+//    //    {
+//    //        crystalProgress = FlowerProgress.SecondStage;
+//    //    }
+
+//    //},
+
+//    new FlowerBool //crystal flower third stage
+//    {
+//        boolCheck = () => crystalFlower.secondStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.SecondStage,
+//        action = () =>
+//        {
+//            crystalFlower.thirdStage = true;
+//            crystalFlower.secondStage = false;
+//            crystalProgress = FlowerProgress.ThirdStage;
+//            waterMeter.WaterReset(2);
+//        }
+//    },
+
+//    //new FlowerBool //wait between stage 3 and harvest
+//    //{
+//    //    boolCheck = () => crystalProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[2] == 0,
+//    //    action = () =>
+//    //    {
+//    //        crystalProgress = FlowerProgress.ThirdStage;
+//    //    }
+//    //},
+
+//    new FlowerBool //crystal flower harvest
+//    {
+//        boolCheck = () => crystalFlower.thirdStage && waterMeter.waterLevels[2] >= 100 && crystalProgress == FlowerProgress.ThirdStage,
+//        action = () =>
+//        {
+//            crystalFlower.thirdStage = false;
+//            crystalProgress = FlowerProgress.None;
+//            crystalFlower.crystalSeeds += crystalFlower.rewardSeeds;
+//            shopManagement.totalCurrency += shopManagement.currencyPerCrystal * crystalFlower.currentThirdStage.Count;
+//            foreach(var obj in crystalFlower.currentThirdStage)
+//            {
+//                if(obj != null)
+//                Destroy(obj);
+//            }
+//            crystalFlower.currentThirdStage.Clear();
+//            crystalFlower.nextSeedIndex = 0;
+//            crystalFlower.plantedSeedCount = 0;
+//            crystalFlower.spawnedSecondStage = 0;
+//            crystalFlower.spawnedThirdStage = 0;
+//            waterMeter.WaterReset(2);
+//        }
+//    },
+
+//    #endregion
+
+//#region Fire
+//    new FlowerBool //fire flower second stage
+//    {
+//        boolCheck = () => fireFlower.firstStage && waterMeter.waterLevels[1] >= 100 && waterMeter.firePlantAutomated ||
+//        fireFlower.firstStage && waterMeter.waterLevels[1] >= 100 && nextStage,
+//        action = () =>
+//                {
+//                    fireFlower.secondStage = true;
+//                    fireFlower.firstStage = false;
+//                    fireProgress = FlowerProgress.SecondStage;
+//                    nextStage = false;
+//                    waterMeter.WaterReset(1);
+//                }
+
+//            },
+
+//            //new FlowerBool //wait between stage 2 and 3
+//            //{
+//            //    boolCheck = () => fireProgress == FlowerProgress.FirstWait && waterMeter.waterLevels[1] == 0,
+//            //    action = () =>
+//            //    {
+//            //        fireProgress = FlowerProgress.SecondStage;
+//            //    }
+
+//            //},
+
+//            new FlowerBool //fire flower third stage
+//            {
+//                boolCheck = () => fireFlower.secondStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.SecondStage  && waterMeter.firePlantAutomated ||
+//                fireFlower.secondStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.SecondStage  && nextStage,
+//                action = () =>
+//                {
+//                    fireFlower.thirdStage = true;
+//                    fireFlower.secondStage = false;
+//                    fireProgress = FlowerProgress.ThirdStage;
+//                    nextStage = false;
+//                    waterMeter.WaterReset(1);
+//                }
+//            },
+
+//            //new FlowerBool //wait between stage 3 and harvest
+//            //{
+//            //    boolCheck = () => fireProgress == FlowerProgress.SecondWait && waterMeter.waterLevels[1] == 0,
+//            //    action = () =>
+//            //    {
+//            //        fireProgress = FlowerProgress.ThirdStage;
+//            //    }
+//            //},
+
+//            new FlowerBool //fire flower harvest
+//            {
+//                boolCheck = () => fireFlower.thirdStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.ThirdStage && waterMeter.firePlantAutomated ||
+//                fireFlower.thirdStage && waterMeter.waterLevels[1] >= 100 && fireProgress == FlowerProgress.ThirdStage && nextStage,
+//                action = () =>
+//                {
+//                    fireFlower.thirdStage = false;
+//                    fireProgress = FlowerProgress.None;
+//                    fireFlower.fireSeeds += fireFlower.rewardSeeds;
+//                    shopManagement.totalCurrency += shopManagement.currencyPerFire * fireFlower.currentThirdStage.Count;
+//                    foreach(var obj in fireFlower.currentThirdStage)
+//                    {
+//                        if(obj != null)
+//                        Destroy(obj);
+//                    }
+//                    fireFlower.currentThirdStage.Clear();
+//                    fireFlower.nextSeedIndex = 0;
+//                    fireFlower.plantedSeedCount = 0;
+//                    fireFlower.spawnedSecondStage = 0;
+//                    fireFlower.spawnedThirdStage = 0;
+//                    nextStage = false;
+//                    waterMeter.WaterReset(1);
+//                }
+//            },
+
+//#endregion
+//        };
