@@ -45,7 +45,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
     GameObject selectedPrimary;
     GameObject selectedSecondary;
 
-    public ShopManagementUpdated shopManagementUpdated;
+    public ShopManagement shopManagementUpdated;
 
     public void CrystalFlowers()
     {

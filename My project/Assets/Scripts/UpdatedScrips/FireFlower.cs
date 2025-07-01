@@ -47,7 +47,7 @@ public class FireFlowerUpdated : MonoBehaviour
 
     public List<GameObject> seedParents = new List<GameObject>();
 
-    public ShopManagementUpdated shopManagementUpdated;
+    public ShopManagement shopManagementUpdated;
 
     public void FireFlowers()
     {

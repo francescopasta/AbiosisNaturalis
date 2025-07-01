@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using TMPro;
 
-public class ShopManagementUpdated : MonoBehaviour
+public class ShopManagement : MonoBehaviour
 {
     [Tooltip(
         "1. Place this script on the object that will manage all the shop.   " +
@@ -52,7 +52,18 @@ public class ShopManagementUpdated : MonoBehaviour
         totalAmount.text = totalCurrency.ToString(); 
     }
 
-    public void ShoppingButtonNewGarden()
+    public void ShoppingButtonCrystalGarden()
+    {
+       
+        if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1])
+        {
+            gardenUnlock[1] = true; //crystal garden
+            crystalPanelUI.SetActive(false);
+            waterMeterUpdated.crystalPlantUnlocked = true;
+            totalCurrency -= pricePerGarden[1];
+        }
+    }
+    public void ShoppingButtonFireGarden() 
     {
         if (totalCurrency >= pricePerGarden[0] && !gardenUnlock[0])
         {
@@ -61,34 +72,30 @@ public class ShopManagementUpdated : MonoBehaviour
             waterMeterUpdated.firePlantUnlocked = true;
             totalCurrency -= pricePerGarden[0];
         }
-
-        else if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1])
-        {
-            gardenUnlock[1] = true; //crystal garden
-            crystalPanelUI.SetActive(false);
-            waterMeterUpdated.crystalPlantUnlocked = true;
-            totalCurrency -= pricePerGarden[1];
-        }
     }
 
-    public void ShoppingButtonUpgrade()
+    public void ShoppingButtonUpgradeWater() 
     {
         if (totalCurrency >= pricePerUpgrade[0] && !upgades[0])
         {
             upgades[0] = true; //water garden
             totalCurrency -= pricePerUpgrade[0];
             flowerManager.AutomateGarden(0);
-            
-        }
 
-        else if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
+        }
+    }
+    public void ShoppingButtonUpgradeFire()
+    {
+        if (totalCurrency >= pricePerUpgrade[1] && !upgades[1])
         {
             upgades[1] = true;  //fire garden
             totalCurrency -= pricePerUpgrade[1];
             flowerManager.AutomateGarden(1);
         }
-
-        else if (totalCurrency >= pricePerUpgrade[2] && !upgades[2])
+    }
+    public void ShoppingButtonUpgradeCrystal()
+    {
+        if (totalCurrency >= pricePerUpgrade[2] && !upgades[2])
         {
             upgades[2] = true; //crystal garden
             totalCurrency -= pricePerUpgrade[2];

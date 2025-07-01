@@ -2160,8 +2160,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1964713411}
-        m_TargetAssemblyTypeName: ShopManagementUpdated, Assembly-CSharp
-        m_MethodName: ShoppingButtonUpgrade
+        m_TargetAssemblyTypeName: ShopManagement, Assembly-CSharp
+        m_MethodName: ShoppingButtonUpgradeCrystal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3922,8 +3922,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1964713411}
-        m_TargetAssemblyTypeName: ShopManagementUpdated, Assembly-CSharp
-        m_MethodName: ShoppingButtonNewGarden
+        m_TargetAssemblyTypeName: ShopManagement, Assembly-CSharp
+        m_MethodName: ShoppingButtonCrystalGarden
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5201,8 +5201,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1964713411}
-        m_TargetAssemblyTypeName: ShopManagementUpdated, Assembly-CSharp
-        m_MethodName: ShoppingButtonUpgrade
+        m_TargetAssemblyTypeName: ShopManagement, Assembly-CSharp
+        m_MethodName: ShoppingButtonUpgradeWater
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7372,8 +7372,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1964713411}
-        m_TargetAssemblyTypeName: ShopManagementUpdated, Assembly-CSharp
-        m_MethodName: ShoppingButtonUpgrade
+        m_TargetAssemblyTypeName: ShopManagement, Assembly-CSharp
+        m_MethodName: ShoppingButtonUpgradeFire
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8227,63 +8227,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1669925904}
   m_CullTransparentMesh: 1
---- !u!1001 &1721156938
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -39.959618
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -41.127216
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1305479667210978628, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1825697807632916478, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
-      propertyPath: m_Name
-      value: water_1.2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3b5e205459ca0174b81c892a3d72c3a8, type: 3}
 --- !u!1 &1767950723
 GameObject:
   m_ObjectHideFlags: 0
@@ -8692,8 +8635,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1964713411}
-        m_TargetAssemblyTypeName: ShopManagementUpdated, Assembly-CSharp
-        m_MethodName: ShoppingButtonNewGarden
+        m_TargetAssemblyTypeName: ShopManagement, Assembly-CSharp
+        m_MethodName: ShoppingButtonFireGarden
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9209,9 +9152,9 @@ MonoBehaviour:
   - 0
   - 0
   waterGain: 10
-  lavaGain: 0
+  lavaGain: 5
   autoWaterGain: 25
-  autoLavaGain: 0
+  autoLavaGain: 20
   waterGainDefault:
   - 5
   - 5
@@ -10126,4 +10069,3 @@ SceneRoots:
   - {fileID: 2125598832}
   - {fileID: 1475844339}
   - {fileID: 430753724}
-  - {fileID: 1721156938}

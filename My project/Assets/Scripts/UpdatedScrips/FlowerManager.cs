@@ -24,7 +24,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
 
     public WaterMeterUpdated waterMeter;
 
-    public ShopManagementUpdated shopManagement;
+    public ShopManagement shopManagement;
 
     [Tooltip("This is the left part of the interaction zone")]
     [Range(0f, 1f)] public float minInteractibleArea; 
