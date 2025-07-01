@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class ShopDropdown : MonoBehaviour
 {
     public GameObject panel;
+    public GameObject manager;
     private void Start()
     {
         Button myButton = GetComponent<Button>();
@@ -16,6 +17,11 @@ public class ShopDropdown : MonoBehaviour
 
     public void OnClick()
     {
-        panel.SetActive(!panel.activeSelf); 
+        panel.SetActive(!panel.activeSelf);
+        PlanetMovement planet = manager.GetComponent<PlanetMovement>();
+        if (manager != null) 
+        {
+            planet.enabled = !planet.isActiveAndEnabled;
+        }
     }
 }

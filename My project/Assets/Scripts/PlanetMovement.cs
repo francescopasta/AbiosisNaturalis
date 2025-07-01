@@ -27,7 +27,7 @@ public class PlanetMovement : MonoBehaviour
 
     void Start()
     {
-        target = GetComponent<Transform>();
+        //target = GetComponent<Transform>();
 
         currentAngle = NormalizeAngle(target.localEulerAngles.z); //puts the euler angle range between -180 and 180
         targetAngle = currentAngle;
