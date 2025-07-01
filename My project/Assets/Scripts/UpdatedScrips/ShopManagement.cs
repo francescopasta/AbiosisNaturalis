@@ -62,7 +62,7 @@ public class ShopManagementUpdated : MonoBehaviour
             totalCurrency -= pricePerGarden[0];
         }
 
-        else if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1] && gardenUnlock[0])
+        else if (totalCurrency >= pricePerGarden[1] && !gardenUnlock[1])
         {
             gardenUnlock[1] = true; //crystal garden
             crystalPanelUI.SetActive(false);

@@ -142,6 +142,21 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     }
 
                     crystalFlower.CrystalFlowers();
+
+                    if (waterMeter.waterLevels[2] >= 100 && !waterMeter.crystalPlantAutomated)
+                    {
+                        nextStage = true;
+                        CrystalFlowerManager();
+
+                    }
+                    else if (waterMeter.waterLevels[2] >= 100 && waterMeter.crystalPlantAutomated)
+                    {
+                        CrystalFlowerManager();
+                    }
+                    if (crystalFlower.firstStage && !waterMeter.crystalPlantAutomated || crystalFlower.secondStage && !waterMeter.crystalPlantAutomated|| crystalFlower.thirdStage && ! waterMeter.crystalPlantAutomated)
+                    {
+                        waterMeter.Gain(2);
+                    }
                 }
             }
         };
@@ -170,10 +185,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         {
             WaterFlowerManager();
         }
-        else if (waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated)
-        {
-            WaterFlowerManager();
-        }
+        
         
     }
 
@@ -194,10 +206,28 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         {
             FireFlowerManager();
         }
-        else if (waterMeter.waterLevels[0] >= 100 && waterMeter.firePlantAutomated)
+        
+    }
+    public void CrystalAction()
+    {
+        if (crystalFlower.crystalSeeds > 0 && crystalProgress == FlowerProgress.None && waterMeter.waterLevels[2] == 0)
         {
-            FireFlowerManager();
+            crystalFlower.firstStage = true;
         }
+
+        crystalFlower.CrystalFlowers();
+
+        //if (waterMeter.waterLevels[2] >= 100 && !waterMeter.crystalPlantAutomated)
+        //{
+        //    nextStage = true;
+        //    CrystalFlowerManager();
+
+        //}
+        if (waterMeter.waterLevels[2] >= 100 && waterMeter.crystalPlantAutomated)
+        {
+            CrystalFlowerManager();
+        }
+        
     }
     public void WaterFlowerManager() 
     {
@@ -343,6 +373,10 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
         if (waterMeter.firePlantAutomated)
         {
             FireAction();
+        }
+        if (waterMeter.crystalPlantAutomated)
+        {
+            CrystalAction();
         }
         // AutomateGarden();
 

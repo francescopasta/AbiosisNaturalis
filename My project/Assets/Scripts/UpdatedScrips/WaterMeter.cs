@@ -90,7 +90,14 @@ public class WaterMeterUpdated : MonoBehaviour
                 || crystalPlantUnlocked && crystalFlower.secondStage
                 || crystalPlantUnlocked && crystalFlower.thirdStage)
             {
-                Fill(2, waterGain);
+                if (!firePlantAutomated)
+                {
+                    Fill(2, lavaGain);
+                }
+                else
+                {
+                    Fill(2, autoLavaGain);
+                }
             }
             //if (waterPlantAutomated)
             //{
