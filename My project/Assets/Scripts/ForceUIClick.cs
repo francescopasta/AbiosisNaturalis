@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ForceUIClick : MonoBehaviour
 {
@@ -31,6 +32,11 @@ public class ForceUIClick : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }

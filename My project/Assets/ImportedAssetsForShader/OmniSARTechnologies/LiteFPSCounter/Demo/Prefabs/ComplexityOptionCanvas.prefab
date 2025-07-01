@@ -402,7 +402,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Material Complexity: <color=#3CF7EA>5,00%</color>'
+  m_Text: 'Material Complexity: <color=#3CF7EA>5.00%</color>'
 --- !u!114 &114568793309946566
 MonoBehaviour:
   m_ObjectHideFlags: 0
