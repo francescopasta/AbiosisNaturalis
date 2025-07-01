@@ -15,7 +15,7 @@ public class WaterMeterUpdated : MonoBehaviour
     [Tooltip("This is for keeping track of the water and changing the slider value")] //fix it 
     public float[] waterLevels = new float[3];
     [Tooltip("This is the amount of water that will drain per a unit of time (timerEnd) will drain")]
-    public float waterDrain;
+    public float waterGain;
     [Tooltip("This is the amount of water that will be added to the meter after the player clicks")]
     public float[] waterGainDefault = new float[3];
     [Tooltip("This variable is used for updating the _waterGainDefault_. This will activate when the player is filling up the water meter")]
@@ -26,6 +26,8 @@ public class WaterMeterUpdated : MonoBehaviour
     public float timerEnd = 3;
 
     [SerializeField] Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
+
+    public FlowerManager flowerManager;
 
     void Start()
     {
@@ -44,20 +46,20 @@ public class WaterMeterUpdated : MonoBehaviour
         {
             for (int i = 0; i < waterLevels.Length; i++)
             {
-                Drain(i);
+                Fill(i);
             }
 
             timerStart -= timerEnd;
         }
     }
 
-    public void Drain(int flowerIndex)
+    public void Fill(int flowerIndex)
     {
         if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) return;
 
         if (waterLevels[flowerIndex] > 0)
         {
-            waterLevels[flowerIndex] -= waterDrain;
+            waterLevels[flowerIndex] += waterGain;
             waterLevels[flowerIndex] = Mathf.Clamp(waterLevels[flowerIndex], 0, 100);
 
             if (waterSliders[flowerIndex] != null)
@@ -68,6 +70,11 @@ public class WaterMeterUpdated : MonoBehaviour
                 waterGainDefault[flowerIndex] = waterGainUpdate;
             }
         }
+    }
+
+    public void WaterReset(int flowerIndex) 
+    {
+        waterLevels[flowerIndex] = 0;
     }
 
     public void Gain(int flowerIndex)
@@ -82,11 +89,11 @@ public class WaterMeterUpdated : MonoBehaviour
         if (waterSliders[flowerIndex] != null)
             waterSliders[flowerIndex].value = waterLevels[flowerIndex];
 
-        // Disable further gain if flower is full
-        if (waterLevels[flowerIndex] >= 100)
-        {
-            waterGainDefault[flowerIndex] = 0;
-        }
+        //// Disable further gain if flower is full
+        //if (waterLevels[flowerIndex] >= 100)
+        //{
+            
+        //}
     }
 
     /* void Start()
