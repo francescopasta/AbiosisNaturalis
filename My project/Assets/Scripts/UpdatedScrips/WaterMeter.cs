@@ -139,7 +139,7 @@ public class WaterMeterUpdated : MonoBehaviour
     {
         //if (flowerIndex < 0 || flowerIndex >= waterLevels.Length) yield return false;
 
-        Debug.Log("AddingWater");
+        //Debug.Log("AddingWater");
 
         waterLevels[flowerIndex] += tapWaterGain;
 

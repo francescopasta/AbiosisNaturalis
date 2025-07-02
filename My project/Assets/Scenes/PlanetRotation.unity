@@ -9131,11 +9131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6eee0c5187c01641b25df493fa9d0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Instructions: Hover your mouse over this variable.
-  audioMixer: {fileID: 0}
-  musicSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
-  systemVolume: -1
 --- !u!114 &1964713409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9215,7 +9210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Instructions: Hover your mouse over this variable.
-  totalCurrency: 100
+  totalCurrency: 0
   currencyPerWater: 1
   currencyPerFire: 2
   currencyPerCrystal: 3
@@ -9225,9 +9220,6 @@ MonoBehaviour:
   gardenUnlock: 0000
   firePanelUI: {fileID: 615239595}
   crystalPanelUI: {fileID: 363831501}
-  waterIncome: {fileID: 2054958802}
-  fireIncome: {fileID: 1652475030}
-  crystalIncome: {fileID: 472747868}
   totalAmount: {fileID: 627460269}
   flowerManager: {fileID: 1964713410}
   waterMeterUpdated: {fileID: 1964713409}

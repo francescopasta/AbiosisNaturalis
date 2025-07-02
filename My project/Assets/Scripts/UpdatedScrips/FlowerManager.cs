@@ -127,7 +127,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         FireFlowerManager();
                     }
-                    if (fireFlower.firstStage && !waterMeter.firePlantAutomated || fireFlower.secondStage && !waterMeter.firePlantAutomated|| fireFlower.thirdStage && !waterMeter.firePlantAutomated)
+                    if (waterMeter.firePlantUnlocked && fireFlower.firstStage && !waterMeter.firePlantAutomated ||waterMeter.firePlantUnlocked && fireFlower.secondStage && !waterMeter.firePlantAutomated|| waterMeter.firePlantUnlocked && fireFlower.thirdStage && !waterMeter.firePlantAutomated)
                     {
                         waterMeter.Gain(1);
                     }
@@ -157,7 +157,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         CrystalFlowerManager();
                     }
-                    if (crystalFlower.firstStage && !waterMeter.crystalPlantAutomated || crystalFlower.secondStage && !waterMeter.crystalPlantAutomated|| crystalFlower.thirdStage && ! waterMeter.crystalPlantAutomated)
+                    if (waterMeter.crystalPlantUnlocked && crystalFlower.firstStage && !waterMeter.crystalPlantAutomated || waterMeter.crystalPlantUnlocked && crystalFlower.secondStage && !waterMeter.crystalPlantAutomated|| waterMeter.crystalPlantUnlocked && crystalFlower.thirdStage && ! waterMeter.crystalPlantAutomated)
                     {
                         waterMeter.Gain(2);
                     }
@@ -235,8 +235,8 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     }
     public void WaterFlowerManager() 
     {
-        if (waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated ||
-        waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && nextStage)
+        Debug.Log("start waterFlower.firstStage = " + waterFlower.firstStage + "  waterFlower.secondStage = " + waterFlower.secondStage + "  waterFlower.thirdStage = " + waterFlower.thirdStage + "; waterMeter.waterLevels[0] = " + waterMeter.waterLevels[0] + "; waterMeter.waterPlantAutomated = " + waterMeter.waterPlantAutomated + " nextStage = " + nextStage);
+        if (waterFlower.firstStage && waterMeter.waterLevels[0] >= 100 && ( waterMeter.waterPlantAutomated ||  nextStage ) )
         {
             waterFlower.secondStage = true;
             waterFlower.firstStage = false;
@@ -274,7 +274,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             waterMeter.WaterReset(0);
         }
 
-
+        Debug.Log("start firstStage = " + waterFlower.firstStage + "  secondStage = " + waterFlower.secondStage + "  thirdStage = " + waterFlower.thirdStage + "; waterMeter.waterLevels[0] = " + waterMeter.waterLevels[0] + "; waterMeter.waterPlantAutomated = " + waterMeter.waterPlantAutomated + " nextStage = " + nextStage);
     }
     public void FireFlowerManager()
     {
@@ -364,9 +364,9 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     void Update()
     {
         ///Chooses which code to run, depanding on the build
-        #if UNITY_EDITOR || UNITY_STANDALONE //runs before the game begin
+#if UNITY_EDITOR || UNITY_STANDALONE || Unity_WEBGL //pc build //runs before the game begin
         ComputerInteraction();
-#elif UNITY_IOS || UNITY_ANDROID
+#elif UNITY_IOS || UNITY_ANDROID //|| Unity_WEBGL // phone build
             MobileInteraction();
 #endif
 
