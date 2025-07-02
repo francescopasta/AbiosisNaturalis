@@ -140,6 +140,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FarColor: {r: 0.122505896, g: 0.0015623331, b: 0.49685526, a: 0}
+    - _HighColor: {r: 0.30861634, g: 0, b: 0.3283019, a: 0}
     - _NearColor: {r: 0.25014424, g: 0, b: 0.42138356, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
