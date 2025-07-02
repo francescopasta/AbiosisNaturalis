@@ -117,17 +117,17 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WindIntensity: 0.1
-    - _WindSpeed: 0.2
+    - _WindIntensity: 0
+    - _WindSpeed: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BottomColor: {r: 0.8553459, g: 0.04485283, b: 0.0026895865, a: 0}
+    - _BottomColor: {r: 0.5849056, g: 0.026954178, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColor: {r: 0.8805031, g: 0.2989878, b: 0.268581, a: 0}
-    - _NearColor: {r: 0.8742138, g: 0.118211135, b: 0.118211135, a: 0}
+    - _FarColor: {r: 0.57861626, g: 0.029483628, b: 0, a: 0}
+    - _NearColor: {r: 0.4627451, g: 0, b: 0.021258716, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
