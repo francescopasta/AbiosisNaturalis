@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlanetOptimization : MonoBehaviour
@@ -16,12 +17,20 @@ public class PlanetOptimization : MonoBehaviour
     private bool fireEnabled = false;
     private bool crystalEnabled = false;
 
+    public float timer;
     void Update()
     {
-        float zRotation = planet.transform.eulerAngles.z;
+       // float zRotation = planet.transform.eulerAngles.z;
 
+        
+    }
+
+
+    public IEnumerator ShaderActivation(float zRotation) 
+    {
         if (IsAngleInRange(zRotation, fireAreaEnabledRange.x, fireAreaEnabledRange.y) && !fireEnabled)
         {
+            yield return new WaitForSeconds(timer);
             Debug.Log("Enabling fire");
             firePlain.SetActive(true);
             waterPlain.SetActive(false);
@@ -32,6 +41,7 @@ public class PlanetOptimization : MonoBehaviour
         }
         else if (IsAngleInRange(zRotation, waterAreaEnabledRange.x, waterAreaEnabledRange.y) && !waterEnabled)
         {
+            yield return new WaitForSeconds(timer);
             Debug.Log("Enabling water");
             firePlain.SetActive(false);
             waterPlain.SetActive(true);
@@ -42,6 +52,7 @@ public class PlanetOptimization : MonoBehaviour
         }
         else if (IsAngleInRange(zRotation, crystalAreaEnabledRange.x, crystalAreaEnabledRange.y) && !crystalEnabled)
         {
+            yield return new WaitForSeconds(timer);
             Debug.Log("Enabling crystal");
             firePlain.SetActive(false);
             waterPlain.SetActive(false);
@@ -50,8 +61,8 @@ public class PlanetOptimization : MonoBehaviour
             waterEnabled = false;
             crystalEnabled = true;
         }
+        
     }
-
     // Helper to check if angle is within a circular range
     bool IsAngleInRange(float angle, float min, float max)
     {

@@ -23,6 +23,7 @@ public class PlanetMovement : MonoBehaviour
     private bool isDragging = false;
     private bool wasOnTheLeft;
 
+    public PlanetOptimization planet;
     #endregion
 
     void Start()
@@ -121,6 +122,7 @@ public class PlanetMovement : MonoBehaviour
         {
             targetAngle = nextAngle;
         }
+        StartCoroutine(planet.ShaderActivation(nextAngle));
     }
     
     float NormalizeAngle(float angle)
