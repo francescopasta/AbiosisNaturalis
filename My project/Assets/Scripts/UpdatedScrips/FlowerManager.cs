@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.WSA;
+//using UnityEngine.WSA;
 
 public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE AUTOMATION
 {
