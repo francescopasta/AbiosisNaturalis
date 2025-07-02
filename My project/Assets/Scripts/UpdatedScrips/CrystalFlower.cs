@@ -46,7 +46,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
     GameObject selectedSecondary;
 
     public ShopManagement shopManagementUpdated;
-
+    public List<GameObject> seedParents = new List<GameObject>();
     public void CrystalFlowers()
     {
         Vector3[] offsets = {
@@ -70,22 +70,26 @@ public class CrystalFlowerUpdated : MonoBehaviour
 
         if (firstStage && crystalSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[1])
         {
-            Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-            GameObject instance = Instantiate(seed, spawnPos, Quaternion.identity, transform.parent);
-
-            crystalSeeds--;
-            plantedSeedCount++;
-            nextSeedIndex++;
-            currentSeeds.Add(instance);
+            
             //Debug.Log("First stage water placed");
+            for (int i = 0; i < 3; i++)
+            {
+                //Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
+                GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+
+                crystalSeeds--;
+                plantedSeedCount++;
+                nextSeedIndex++;
+                currentSeeds.Add(instance);
+            }
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, spawnPos, Quaternion.identity, transform.parent);
+                //Vector3 spawnPos = transform.position + offsets[i];
+                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
                 spawnedSecondStage++;
                 currentSecondStage.Add(instance);
             }
@@ -104,8 +108,8 @@ public class CrystalFlowerUpdated : MonoBehaviour
         {
             for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, spawnPos, Quaternion.identity, transform.parent);
+                    //Vector3 spawnPos = transform.position + offsets[i];
+                    GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
                 spawnedThirdStage++;
                 currentThirdStage.Add(instance);
             }
