@@ -13,6 +13,10 @@ public class PlanetOptimization : MonoBehaviour
     public GameObject waterPlain;
     public GameObject crystalPlain;
 
+    public GameObject fireDisplayIcon;
+    public GameObject waterDisplayIcon;
+    public GameObject crystalDisplayIcon;
+
     private bool waterEnabled = false;
     private bool fireEnabled = false;
     private bool crystalEnabled = false;
@@ -38,6 +42,9 @@ public class PlanetOptimization : MonoBehaviour
             fireEnabled = true;
             waterEnabled = false;
             crystalEnabled = false;
+            fireDisplayIcon.SetActive(true);
+            waterDisplayIcon.SetActive(false);
+            crystalDisplayIcon.SetActive(false);
         }
         else if (IsAngleInRange(zRotation, waterAreaEnabledRange.x, waterAreaEnabledRange.y) && !waterEnabled)
         {
@@ -49,6 +56,9 @@ public class PlanetOptimization : MonoBehaviour
             fireEnabled = false;
             waterEnabled = true;
             crystalEnabled = false;
+            fireDisplayIcon.SetActive(false);
+            waterDisplayIcon.SetActive(true);
+            crystalDisplayIcon.SetActive(false);
         }
         else if (IsAngleInRange(zRotation, crystalAreaEnabledRange.x, crystalAreaEnabledRange.y) && !crystalEnabled)
         {
@@ -60,6 +70,9 @@ public class PlanetOptimization : MonoBehaviour
             fireEnabled = false;
             waterEnabled = false;
             crystalEnabled = true;
+            fireDisplayIcon.SetActive(false);
+            waterDisplayIcon.SetActive(false);
+            crystalDisplayIcon.SetActive(true);
         }
         
     }
