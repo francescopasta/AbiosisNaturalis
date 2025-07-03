@@ -18,10 +18,8 @@ public class WaterMeterUpdated : MonoBehaviour
     [Tooltip("This is the amount of water that will drain per a unit of time (timerEnd) will drain")]
     public float waterGain;
     public float lavaGain;
-    public float crystalGain;
     public float autoWaterGain;
     public float autoLavaGain;
-    public float autoCrystalGain;
     [Tooltip("This is the amount of water that will be added to the meter after the player clicks")]
     public float[] waterGainDefault = new float[3];
     [Tooltip("This variable is used for updating the _waterGainDefault_. This will activate when the player is filling up the water meter")]
@@ -94,11 +92,11 @@ public class WaterMeterUpdated : MonoBehaviour
             {
                 if (!firePlantAutomated)
                 {
-                    Fill(2, crystalGain);
+                    Fill(2, lavaGain);
                 }
                 else
                 {
-                    Fill(2, autoCrystalGain);
+                    Fill(2, autoLavaGain);
                 }
             }
             //if (waterPlantAutomated)

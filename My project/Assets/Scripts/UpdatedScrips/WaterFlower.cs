@@ -70,6 +70,7 @@ public class WaterFlowerUpdated : MonoBehaviour
         if (firstStage && nextSeedIndex < 3 && waterSeeds > 0) 
         {
             positionInts.Clear();
+            seedsPlanted = true;
             waterSeeds = 0;
             StartCoroutine(PlantSeedFirstStage(0.15f));
             // Debug.Log("First stage water placed");
@@ -105,7 +106,6 @@ public class WaterFlowerUpdated : MonoBehaviour
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
         {
-            spawnedThirdStage = plantedSeedCount;
             positionInts.Clear();
             for (int i = 0; i < 3; i++)
             {
