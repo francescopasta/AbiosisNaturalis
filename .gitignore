@@ -109,3 +109,4 @@ crashlytics-build.properties
 /[Aa]ssets/Polybrush/Brushes/
 /[Aa]ssets/Polybrush/**/*.asset
 /[Pp]rojectSettings/PolybrushSettings.asset
+My project/ProjectSettings/Packages/com.unity.polybrush
