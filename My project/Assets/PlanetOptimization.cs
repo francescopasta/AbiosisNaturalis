@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlanetOptimization : MonoBehaviour
 {
+    public WaterMeterUpdated waterMeter;
+
     public Transform planet;
 
     public Vector2 fireAreaEnabledRange;     // e.g., (25, 125)
@@ -16,6 +18,9 @@ public class PlanetOptimization : MonoBehaviour
     public GameObject fireDisplayIcon;
     public GameObject waterDisplayIcon;
     public GameObject crystalDisplayIcon;
+
+    public GameObject fireLock;
+    public GameObject crystalLock;
 
     private bool waterEnabled = false;
     private bool fireEnabled = false;
@@ -45,6 +50,8 @@ public class PlanetOptimization : MonoBehaviour
             fireDisplayIcon.SetActive(true);
             waterDisplayIcon.SetActive(false);
             crystalDisplayIcon.SetActive(false);
+            fireLock.SetActive(!waterMeter.firePlantUnlocked);
+            crystalLock.SetActive(false);
         }
         else if (IsAngleInRange(zRotation, waterAreaEnabledRange.x, waterAreaEnabledRange.y) && !waterEnabled)
         {
@@ -59,6 +66,8 @@ public class PlanetOptimization : MonoBehaviour
             fireDisplayIcon.SetActive(false);
             waterDisplayIcon.SetActive(true);
             crystalDisplayIcon.SetActive(false);
+            fireLock.SetActive(false);
+            crystalLock.SetActive(false);
         }
         else if (IsAngleInRange(zRotation, crystalAreaEnabledRange.x, crystalAreaEnabledRange.y) && !crystalEnabled)
         {
@@ -73,6 +82,8 @@ public class PlanetOptimization : MonoBehaviour
             fireDisplayIcon.SetActive(false);
             waterDisplayIcon.SetActive(false);
             crystalDisplayIcon.SetActive(true);
+            fireLock.SetActive(false);
+            crystalLock.SetActive(!waterMeter.crystalPlantUnlocked);
         }
         
     }

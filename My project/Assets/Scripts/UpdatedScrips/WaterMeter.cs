@@ -31,7 +31,7 @@ public class WaterMeterUpdated : MonoBehaviour
     [Tooltip("This is the rate at which the water will drain. Closer to 0, will drain faster")]
     public float timerEnd = 3;
 
-    public Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
+    [SerializeField] Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
 
     public FlowerManagerUpdate flowerManager;
     public WaterFlowerUpdated waterFlower;
@@ -46,7 +46,9 @@ public class WaterMeterUpdated : MonoBehaviour
     public bool firePlantAutomated = false;
     public bool crystalPlantAutomated = false;
 
-    public CrystalFlowerWithering crystalFlowerWithering;
+    public GameObject fireLock;
+    public GameObject crystalLock;
+
     void Start()
     {
         if (waterSliders == null)
@@ -108,6 +110,16 @@ public class WaterMeterUpdated : MonoBehaviour
             //}
             timerStart -= timerEnd;
         }
+
+        if (firePlantUnlocked && fireLock.activeSelf)
+        {
+            fireLock.SetActive(false);
+        }
+
+        if (crystalPlantUnlocked && crystalLock.activeSelf)
+        {
+            crystalLock.SetActive(false);
+        }
     }
 
     public void Fill(int flowerIndex, float fillAmount)
@@ -153,13 +165,7 @@ public class WaterMeterUpdated : MonoBehaviour
         //// Disable further gain if flower is full
         if (waterLevels[flowerIndex] >= 100)
         {
-            
             waterLevels[flowerIndex] = 100;
-            //if (flowerIndex == 2 && !crystalPlantAutomated)
-            //{
-            //    crystalFlowerWithering.witheringCrystal = true;
-            //}
-            
         }
     }
     public void AutomatedFilling(int flowerIndex) 
