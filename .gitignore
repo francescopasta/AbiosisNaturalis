@@ -1,4 +1,4 @@
-#FMOD stuff
+# FMOD stuff
 # Never ignore DLLs in the FMOD subfolder.
 !**/[Aa]ssets/Plugins/FMOD/**/lib/*
 
@@ -33,10 +33,7 @@ fmod_editor.log
 /dataSources.local.xml
 **/.idea/
 
-# This .gitignore file should be placed at the root of your Unity project directory
-#
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
+# Unity generated folders
 **/[Ll]ibrary/
 **/[Tt]emp/
 **/[Oo]bj/
@@ -106,3 +103,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# PolyBrush project settings (Unity) - GitFork
+/[Aa]ssets/Polybrush/Settings/
+/[Aa]ssets/Polybrush/Brushes/
+/[Aa]ssets/Polybrush/**/*.asset
+/[Pp]rojectSettings/PolybrushSettings.asset
