@@ -52,6 +52,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
     public List<int> flowerIndexes = new List<int>();
     public List<int> positionInts = new List<int>();
     public bool seedsPlanted = false;
+    public CrystalFlowerWithering crystalFlowerWithering;
     public void CrystalFlowers()
     {
         if (crystalSecondStage.Length != crystalThirdStage.Length)
@@ -80,6 +81,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
                     }
                 }
             }
+            crystalFlowerWithering.withered = false;
             positionInts.Clear();
             seedsPlanted = true;
             crystalSeeds = 0;

@@ -4,14 +4,14 @@ public class WaterWithering : MonoBehaviour
 {
     public WaterMeterUpdated waterMeter;
     public WaterFlowerUpdated waterFlower;
-    public bool witheringCrystal;
+    public bool withered;
     public float witherTimerCrystal;
     public float timeToWither;
     public GameObject witherFlowers;
     // Update is called once per frame
     void Update()
     {
-        if (waterMeter.waterLevels[0] >= 100)
+        if (waterMeter.waterLevels[0] >= 100 && !withered)
         {
             witherTimerCrystal += Time.deltaTime;
             if (witherTimerCrystal >= timeToWither)
@@ -21,7 +21,7 @@ public class WaterWithering : MonoBehaviour
         }
         if (waterMeter.waterLevels[0] < 100)
         {
-            witheringCrystal = false;
+            
             witherTimerCrystal = 0;
         }
     }
@@ -35,7 +35,7 @@ public class WaterWithering : MonoBehaviour
             Instantiate(witherFlowers, parent.transform.position, Quaternion.identity, parent.transform);
         }
 
-        // <-- ADD THIS LINE
+        withered = true;
         waterFlower.firstStage = true;
     }
 }

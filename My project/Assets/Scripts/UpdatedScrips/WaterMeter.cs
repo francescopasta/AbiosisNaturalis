@@ -48,7 +48,9 @@ public class WaterMeterUpdated : MonoBehaviour
 
     public GameObject fireLock;
     public GameObject crystalLock;
-
+    public WaterWithering waterWithering;
+    public FireFlowerWither fireFlowerWither;
+    public CrystalFlowerWithering crystalFlowerWither;
     void Start()
     {
         if (waterSliders == null)
@@ -65,11 +67,11 @@ public class WaterMeterUpdated : MonoBehaviour
 
         if (timerStart > timerEnd)
         {
-            if (waterPlantUnlocked && waterFlower.firstStage 
-                || waterPlantUnlocked && waterFlower.secondStage 
-                || waterPlantUnlocked && waterFlower.thirdStage)
+            if (waterPlantUnlocked && waterFlower.firstStage && !waterWithering.withered
+                || waterPlantUnlocked && waterFlower.secondStage && !waterWithering.withered
+                || waterPlantUnlocked && waterFlower.thirdStage && !waterWithering.withered)
             {
-                if (!waterPlantAutomated)
+                if (!waterPlantAutomated )
                 {
                     Fill(0, waterGain);
                 }
@@ -78,9 +80,9 @@ public class WaterMeterUpdated : MonoBehaviour
                     Fill(0, autoWaterGain);
                 }
             }
-            if (firePlantUnlocked && fireFlower.firstStage
-                || firePlantUnlocked && fireFlower.secondStage
-                || firePlantUnlocked && fireFlower.thirdStage)
+            if (firePlantUnlocked && fireFlower.firstStage && !fireFlowerWither.withered
+                || firePlantUnlocked && fireFlower.secondStage && !fireFlowerWither.withered
+                || firePlantUnlocked && fireFlower.thirdStage && !fireFlowerWither.withered)
             {
                 if (!firePlantAutomated)
                 {
@@ -91,9 +93,9 @@ public class WaterMeterUpdated : MonoBehaviour
                     Fill(1, autoLavaGain);
                 }
             }
-            if (crystalPlantUnlocked && crystalFlower.firstStage
-                || crystalPlantUnlocked && crystalFlower.secondStage
-                || crystalPlantUnlocked && crystalFlower.thirdStage)
+            if (crystalPlantUnlocked && crystalFlower.firstStage && !crystalFlowerWither.withered
+                || crystalPlantUnlocked && crystalFlower.secondStage && !crystalFlowerWither.withered
+                || crystalPlantUnlocked && crystalFlower.thirdStage && !crystalFlowerWither.withered)
             {
                 if (!crystalPlantAutomated)
                 {

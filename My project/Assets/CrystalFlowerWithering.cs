@@ -4,16 +4,16 @@ public class CrystalFlowerWithering : MonoBehaviour
 {
     public WaterMeterUpdated waterMeter;
     public CrystalFlowerUpdated crystalFlower;
-    public bool witheringCrystal;
+    public bool withered;
     public float witherTimerCrystal;
     public float timeToWither;
     public GameObject witherFlowers;
     // Update is called once per frame
     void Update()
     {
-        if (waterMeter.waterLevels[2] >= 100) 
+        if (waterMeter.waterLevels[2] >= 100 && !withered) 
         {
-            witheringCrystal = true;
+            withered = true;
             witherTimerCrystal += Time.deltaTime;
             if (witherTimerCrystal >= timeToWither)
             {
@@ -22,7 +22,7 @@ public class CrystalFlowerWithering : MonoBehaviour
         }
         if (waterMeter.waterLevels[2] < 100)
         {
-            witheringCrystal = false;
+            
             witherTimerCrystal = 0;
         }
     }

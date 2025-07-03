@@ -81,6 +81,7 @@ public class WaterFlowerUpdated : MonoBehaviour
                     }
                 }
             }
+            waterWithering.withered = false;
             positionInts.Clear();
             seedsPlanted = true;
             waterSeeds = 0;

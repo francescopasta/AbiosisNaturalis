@@ -53,6 +53,7 @@ public class FireFlowerUpdated : MonoBehaviour
     public List<int> flowerIndexes = new List<int>();
     public List<int> positionInts = new List<int>();
     public bool seedsPlanted = false;
+    public FireFlowerWither fireFlowerWither;
     public void FireFlowers()
     {
 
@@ -82,6 +83,7 @@ public class FireFlowerUpdated : MonoBehaviour
                     }
                 }
             }
+            fireFlowerWither.withered = false;
             positionInts.Clear();
             seedsPlanted = true;
             fireSeeds = 0;
