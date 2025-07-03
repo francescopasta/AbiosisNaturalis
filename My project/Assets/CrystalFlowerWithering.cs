@@ -28,5 +28,6 @@ public class CrystalFlowerWithering : MonoBehaviour
     {
         crystalFlower.ResetManager();
         waterMeter.waterLevels[2] = 0;
+        waterMeter.waterSliders[2].value = 0;
     }
 }

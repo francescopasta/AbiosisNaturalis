@@ -31,7 +31,7 @@ public class WaterMeterUpdated : MonoBehaviour
     [Tooltip("This is the rate at which the water will drain. Closer to 0, will drain faster")]
     public float timerEnd = 3;
 
-    [SerializeField] Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
+    public Slider[] waterSliders = new Slider[3]; // Assign sliders via inspector for each flower
 
     public FlowerManagerUpdate flowerManager;
     public WaterFlowerUpdated waterFlower;
