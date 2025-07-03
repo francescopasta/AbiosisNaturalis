@@ -177,4 +177,46 @@ public class CrystalFlowerUpdated : MonoBehaviour
         crystalSeeds = 3;
 
     }
+    public void ResetManager()
+    {
+        // Destroy all seeds
+        foreach (var obj in currentSeeds)
+        {
+            if (obj != null) Destroy(obj);
+        }
+        currentSeeds.Clear();
+
+        // Destroy second stage
+        foreach (var obj in currentSecondStage)
+        {
+            if (obj != null) Destroy(obj);
+        }
+        currentSecondStage.Clear();
+
+        // Destroy third stage
+        foreach (var obj in currentThirdStage)
+        {
+            if (obj != null) Destroy(obj);
+        }
+        currentThirdStage.Clear();
+
+        // Reset counters
+        plantedSeedCount = 0;
+        spawnedSecondStage = 0;
+        spawnedThirdStage = 0;
+        nextSeedIndex = 0;
+        crystalSeeds = 3;
+
+        // Reset lists
+        positionInts.Clear();
+        flowerIndexes.Clear();
+        seedsPlanted = false;
+
+        // Reset stages
+        firstStage = false;
+        secondStage = false;
+        thirdStage = false;
+
+        Debug.Log("CrystalFlowerUpdated: Manager has been reset.");
+    }
 }

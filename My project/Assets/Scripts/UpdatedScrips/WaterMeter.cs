@@ -44,6 +44,7 @@ public class WaterMeterUpdated : MonoBehaviour
     public bool firePlantAutomated = false;
     public bool crystalPlantAutomated = false;
 
+    public CrystalFlowerWithering crystalFlowerWithering;
     void Start()
     {
         if (waterSliders == null)
@@ -150,7 +151,13 @@ public class WaterMeterUpdated : MonoBehaviour
         //// Disable further gain if flower is full
         if (waterLevels[flowerIndex] >= 100)
         {
+            
             waterLevels[flowerIndex] = 100;
+            //if (flowerIndex == 2 && !crystalPlantAutomated)
+            //{
+            //    crystalFlowerWithering.witheringCrystal = true;
+            //}
+            
         }
     }
     public void AutomatedFilling(int flowerIndex) 

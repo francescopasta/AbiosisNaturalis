@@ -66,7 +66,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
     public List<FlowerBool> flowerBools;
 
 
-
+    public CrystalFlowerWithering crystalFlowerWithering;
     void Start()
     {
 
