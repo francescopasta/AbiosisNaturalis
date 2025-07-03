@@ -20,18 +20,16 @@ public class AnimationManager : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();    
+        animator = GetComponent<Animator>();
     }
 
-    public void OnButtonClick()
-    {
-        StartCoroutine(TriggerButtonAnimation());
-    }
-
-    private IEnumerator TriggerButtonAnimation()
+    public void OnButtonClickEnable()
     {
         animator.SetBool("Button", true);
-        yield return new WaitForSeconds(1f);
+    }
+
+    public void OnButtonClickDisable()
+    {
         animator.SetBool("Button", false);
     }
 }
