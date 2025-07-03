@@ -51,6 +51,8 @@ public class WaterFlowerUpdated : MonoBehaviour
     public List<int> flowerIndexes = new List<int>();
     public List<int> positionInts = new List<int>();
     public bool seedsPlanted = false;
+    public WaterWithering waterWithering;
+
     public void WaterFlowers()
     {
         if (waterSecondStage.Length != waterThirdStage.Length)
@@ -69,6 +71,16 @@ public class WaterFlowerUpdated : MonoBehaviour
 
         if (firstStage && nextSeedIndex < 3 && waterSeeds > 0) 
         {
+            foreach (var parent in seedParents)
+            {
+                if (parent.transform.childCount > 0)
+                {
+                    foreach (Transform child in parent.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+            }
             positionInts.Clear();
             seedsPlanted = true;
             waterSeeds = 0;
@@ -168,7 +180,7 @@ public class WaterFlowerUpdated : MonoBehaviour
         {
 
             selectedSecondary = waterThirdStage[flowerIndexes[i]];
-            GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            GameObject instance = Instantiate(selectedSecondary, seedParents[flowerIndexes[i]].transform.position, transform.rotation, seedParents[flowerIndexes[i]].transform);
             spawnedThirdStage++;
             currentThirdStage.Add(instance);
             yield return new WaitForSeconds(timer);

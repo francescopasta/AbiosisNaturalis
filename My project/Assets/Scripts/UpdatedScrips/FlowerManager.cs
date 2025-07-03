@@ -91,7 +91,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         nextStage = true;
                         WaterFlowerManager();
-
+                        waterFlower.WaterFlowers();
                     }
                     else if (waterMeter.waterLevels[0] >= 100 && waterMeter.waterPlantAutomated)
                     {
@@ -122,6 +122,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         nextStage = true;
                         FireFlowerManager();
+                         fireFlower.FireFlowers();
                     }
                     else if (waterMeter.waterLevels[0] >= 100 && waterMeter.firePlantAutomated)
                     {
@@ -151,6 +152,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         nextStage = true;
                         CrystalFlowerManager();
+                        crystalFlower.CrystalFlowers();
 
                     }
                     else if (waterMeter.waterLevels[2] >= 100 && waterMeter.crystalPlantAutomated)

@@ -7,11 +7,13 @@ public class CrystalFlowerWithering : MonoBehaviour
     public bool witheringCrystal;
     public float witherTimerCrystal;
     public float timeToWither;
+    public GameObject witherFlowers;
     // Update is called once per frame
     void Update()
     {
         if (waterMeter.waterLevels[2] >= 100) 
         {
+            witheringCrystal = true;
             witherTimerCrystal += Time.deltaTime;
             if (witherTimerCrystal >= timeToWither)
             {
@@ -29,5 +31,10 @@ public class CrystalFlowerWithering : MonoBehaviour
         crystalFlower.ResetManager();
         waterMeter.waterLevels[2] = 0;
         waterMeter.waterSliders[2].value = 0;
+        foreach (var parent in crystalFlower.seedParents) 
+        {
+            Instantiate(witherFlowers, parent.transform.position, Quaternion.identity, parent.transform);
+        }
+        crystalFlower.firstStage = true;
     }
 }

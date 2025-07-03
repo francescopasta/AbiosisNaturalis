@@ -70,6 +70,16 @@ public class CrystalFlowerUpdated : MonoBehaviour
 
         if (firstStage && nextSeedIndex < 3 && crystalSeeds > 0)
         {
+            foreach (var parent in seedParents)
+            {
+                if (parent.transform.childCount > 0)
+                {
+                    foreach (Transform child in parent.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+                }
+            }
             positionInts.Clear();
             seedsPlanted = true;
             crystalSeeds = 0;
@@ -169,7 +179,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
         {
 
             selectedSecondary = crystalThirdStage[flowerIndexes[i]];
-            GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            GameObject instance = Instantiate(selectedSecondary, seedParents[flowerIndexes[i]].transform.position, transform.rotation, seedParents[flowerIndexes[i]].transform);
             spawnedThirdStage++;
             currentThirdStage.Add(instance);
             yield return new WaitForSeconds(timer);
