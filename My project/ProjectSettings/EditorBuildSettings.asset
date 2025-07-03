@@ -5,11 +5,8 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Implementation.unity
     guid: bb420956f45aaf4409f7353370b00ccc
-  - enabled: 1
-    path: Assets/Scenes/ImplementationNewGrassPls.unity
-    guid: ce8c7f5f8489ede45874c0ecd6d62712
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

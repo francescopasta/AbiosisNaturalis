@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,38 +49,40 @@ public class FireFlowerUpdated : MonoBehaviour
     public List<GameObject> seedParents = new List<GameObject>();
 
     public ShopManagement shopManagementUpdated;
+
     public List<int> flowerIndexes = new List<int>();
     public List<int> positionInts = new List<int>();
     public bool seedsPlanted = false;
     public void FireFlowers()
     {
-        
 
         if (fireSecondStage.Length != fireThirdStage.Length)
         {
-            //Debug.LogError("Second and Third stage are missmatched!");
+            Debug.LogError("Second and Third stage are missmatched!");
             return;
         }
 
-        //for (int i = 0; i < fireSeeds; i++)
+        //for (int i = 0; i < waterSeeds; i++)
         //{
-        //    int index = Random.Range(0, fireSecondStage.Length);
+        //    int index = Random.Range(0, waterSecondStage.Length);
 
-        //    selectedPrimary = fireSecondStage[index];
-        //    selectedSecondary = fireThirdStage[index];
+        //    selectedPrimary = waterSecondStage[index];
+        //    selectedSecondary = waterThirdStage[index];
         //}
 
-        if (firstStage && nextSeedIndex < 3 && fireSeeds > 0 && shopManagementUpdated.gardenUnlock[0])
+        if (firstStage && nextSeedIndex < 3 && fireSeeds > 0)
         {
             positionInts.Clear();
+            seedsPlanted = true;
             fireSeeds = 0;
             StartCoroutine(PlantSeedFirstStage(0.15f));
-
-            //Debug.Log("First stage water placed");
+            // Debug.Log("First stage water placed");
+            flowerIndexes.Clear();
         }
 
-        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
+        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount)
         {
+
             spawnedSecondStage = plantedSeedCount;
             for (int i = 0; i < 3; i++)
             {
@@ -96,21 +97,18 @@ public class FireFlowerUpdated : MonoBehaviour
                 }
 
             }
-
+            StartCoroutine(PlantSeedSecondStage(0.15f));
             foreach (var obj in currentSeeds)
             {
                 if (obj != null)
                     Destroy(obj);
             }
             currentSeeds.Clear();
-            currentSecondStage.Clear();
-            StartCoroutine(PlantSeedSecondStage(0.15f));
-            //Debug.Log("Second stage placed");
+            // Debug.Log("Second stage placed");
         }
 
-        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
+        if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
         {
-            spawnedThirdStage = plantedSeedCount;
             positionInts.Clear();
             for (int i = 0; i < 3; i++)
             {
@@ -126,7 +124,6 @@ public class FireFlowerUpdated : MonoBehaviour
 
             }
             spawnedThirdStage = plantedSeedCount;
-
             foreach (var obj in currentSecondStage)
             {
                 if (obj != null)
@@ -134,23 +131,27 @@ public class FireFlowerUpdated : MonoBehaviour
             }
             currentSecondStage.Clear();
             StartCoroutine(PlantSeedThirdStage(0.15f));
+
             // Debug.Log("Third stage placed");
         }
-
-
     }
-    private IEnumerator PlantSeedFirstStage(float timer)
+    public IEnumerator PlantSeedFirstStage(float timer)
     {
         for (int i = 0; i < 3; i++)
         {
+
+            //Vector3 spawnPos = new Vector3(transform.position.x , transform.position.y , transform.position.z );
             GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-            fireSeeds--;
+
+
             plantedSeedCount++;
+            nextSeedIndex++;
             currentSeeds.Add(instance);
             yield return new WaitForSeconds(timer);
+
         }
     }
-    private IEnumerator PlantSeedSecondStage(float timer)
+    public IEnumerator PlantSeedSecondStage(float timer)
     {
         for (int i = 0; i < 3; i++)
         {
@@ -164,7 +165,7 @@ public class FireFlowerUpdated : MonoBehaviour
             yield return new WaitForSeconds(timer);
         }
     }
-    private IEnumerator PlantSeedThirdStage(float timer)
+    public IEnumerator PlantSeedThirdStage(float timer)
     {
         for (int i = 0; i < 3; i++)
         {
