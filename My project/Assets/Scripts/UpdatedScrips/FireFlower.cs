@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,13 +50,12 @@ public class FireFlowerUpdated : MonoBehaviour
     public List<GameObject> seedParents = new List<GameObject>();
 
     public ShopManagement shopManagementUpdated;
-
+    public List<int> flowerIndexes = new List<int>();
+    public List<int> positionInts = new List<int>();
+    public bool seedsPlanted = false;
     public void FireFlowers()
     {
-        Vector3[] offsets = {
-            new Vector3(-2, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(2, 0, 0) };
+        
 
         if (fireSecondStage.Length != fireThirdStage.Length)
         {
@@ -62,37 +63,38 @@ public class FireFlowerUpdated : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < fireSeeds; i++)
+        //for (int i = 0; i < fireSeeds; i++)
+        //{
+        //    int index = Random.Range(0, fireSecondStage.Length);
+
+        //    selectedPrimary = fireSecondStage[index];
+        //    selectedSecondary = fireThirdStage[index];
+        //}
+
+        if (firstStage && nextSeedIndex < 3 && fireSeeds > 0 && shopManagementUpdated.gardenUnlock[0])
         {
-            int index = Random.Range(0, fireSecondStage.Length);
-
-            selectedPrimary = fireSecondStage[index];
-            selectedSecondary = fireThirdStage[index];
-        }
-
-        if (firstStage && fireSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[0])
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-                GameObject instance = Instantiate(seed, seedParents[nextSeedIndex].transform.position, Quaternion.identity, seedParents[nextSeedIndex].transform);
-
-                fireSeeds--;
-                plantedSeedCount++;
-                currentSeeds.Add(instance);
-            }
+            positionInts.Clear();
+            fireSeeds = 0;
+            StartCoroutine(PlantSeedFirstStage(0.15f));
 
             //Debug.Log("First stage water placed");
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
+            spawnedSecondStage = plantedSeedCount;
+            for (int i = 0; i < 3; i++)
             {
-                ///Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
-                spawnedSecondStage++;
-                currentSecondStage.Add(instance);
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
+
             }
 
             foreach (var obj in currentSeeds)
@@ -101,19 +103,29 @@ public class FireFlowerUpdated : MonoBehaviour
                     Destroy(obj);
             }
             currentSeeds.Clear();
-
+            currentSecondStage.Clear();
+            StartCoroutine(PlantSeedSecondStage(0.15f));
             //Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[0])
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
+            spawnedThirdStage = plantedSeedCount;
+            positionInts.Clear();
+            for (int i = 0; i < 3; i++)
             {
-                //Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, Quaternion.identity, seedParents[i].transform);
-                spawnedThirdStage++;
-                currentThirdStage.Add(instance);
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
+
             }
+            spawnedThirdStage = plantedSeedCount;
 
             foreach (var obj in currentSecondStage)
             {
@@ -121,8 +133,49 @@ public class FireFlowerUpdated : MonoBehaviour
                     Destroy(obj);
             }
             currentSecondStage.Clear();
-
-           // Debug.Log("Third stage placed");
+            StartCoroutine(PlantSeedThirdStage(0.15f));
+            // Debug.Log("Third stage placed");
         }
+
+
+    }
+    private IEnumerator PlantSeedFirstStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            fireSeeds--;
+            plantedSeedCount++;
+            currentSeeds.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+    }
+    private IEnumerator PlantSeedSecondStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            int randomFlower = Random.Range(0, 3);
+            flowerIndexes.Add(randomFlower);
+            selectedPrimary = fireSecondStage[randomFlower];
+            GameObject instance = Instantiate(selectedPrimary, seedParents[positionInts[i]].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedSecondStage++;
+            currentSecondStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+    }
+    private IEnumerator PlantSeedThirdStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            selectedSecondary = fireThirdStage[flowerIndexes[i]];
+            GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedThirdStage++;
+            currentThirdStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+        fireSeeds = 3;
+
     }
 }

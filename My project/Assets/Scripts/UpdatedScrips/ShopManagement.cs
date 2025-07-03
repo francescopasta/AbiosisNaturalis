@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using TMPro;
+using UnityEngine.UI;
+
 
 public class ShopManagement : MonoBehaviour
 {
@@ -44,13 +46,27 @@ public class ShopManagement : MonoBehaviour
     public FlowerManagerUpdate flowerManager;
     public WaterMeterUpdated waterMeterUpdated;
 
+    [Header("Buttons")]
+    public Button upgradeWaterButton;
+    public Button upgradeFireButton;
+    public Button upgradeCrystalButton;
+    public Button unlockFireGardenButton;
+    public Button unlockCrystalGardenButton;
+
     public void Update()
     {
-        //waterIncome.text = currencyPerWater.ToString() + "per Flower";
-        //fireIncome.text = currencyPerFire.ToString() + "per Flower";
-        //crystalIncome.text = currencyPerCrystal.ToString() + "per Flower";
-        totalAmount.text = totalCurrency.ToString(); 
+        totalAmount.text = totalCurrency.ToString();
+
+        //upgrade buttons
+        upgradeWaterButton.interactable = totalCurrency >= pricePerUpgrade[0] && !upgades[0];
+        upgradeFireButton.interactable = totalCurrency >= pricePerUpgrade[1] && !upgades[1];
+        upgradeCrystalButton.interactable = totalCurrency >= pricePerUpgrade[2] && !upgades[2];
+
+        //garden unlock buttons
+        unlockFireGardenButton.interactable = totalCurrency >= pricePerGarden[0] && !gardenUnlock[0];
+        unlockCrystalGardenButton.interactable = totalCurrency >= pricePerGarden[1] && !gardenUnlock[1];
     }
+
 
     public void ShoppingButtonCrystalGarden()
     {
