@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,86 +48,132 @@ public class WaterFlowerUpdated : MonoBehaviour
 
     public List<GameObject> seedParents = new List<GameObject>();
     public WaterMeterUpdated waterMeter;
+    public List<int> flowerIndexes = new List<int>();
+    public List<int> positionInts = new List<int>();
+    public bool seedsPlanted = false;
     public void WaterFlowers()
     {
-        Vector3[] offsets = {
-            new Vector3(-2, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(2, 0, 0) };
-
         if (waterSecondStage.Length != waterThirdStage.Length)
         {
             Debug.LogError("Second and Third stage are missmatched!");
             return;
         }
 
-        for (int i = 0; i < waterSeeds; i++)
+        //for (int i = 0; i < waterSeeds; i++)
+        //{
+        //    int index = Random.Range(0, waterSecondStage.Length);
+
+        //    selectedPrimary = waterSecondStage[index];
+        //    selectedSecondary = waterThirdStage[index];
+        //}
+
+        if (firstStage && nextSeedIndex < 3 && waterSeeds > 0) 
         {
-            int index = Random.Range(0, waterSecondStage.Length);
-
-            selectedPrimary = waterSecondStage[index];
-            selectedSecondary = waterThirdStage[index];
-        }
-
-        if (firstStage && waterSeeds > 0 && nextSeedIndex < offsets.Length) //clear nextSeed
-        {
-            PlantSeedFirstStage();
-
-
+            seedsPlanted = true;
+            waterSeeds = 0;
+            StartCoroutine(PlantSeedFirstStage(0.15f));
             // Debug.Log("First stage water placed");
+            flowerIndexes.Clear();
         }
 
-        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount) //Clear SpawnedSeeds
+        if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount) 
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
-            {
-                
-                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-                spawnedSecondStage++;
-                currentSecondStage.Add(instance);
-            }
 
+            spawnedSecondStage = plantedSeedCount;
+            for (int i = 0; i < 3; i++)
+            {
+                positionInts.Clear();
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
+
+            }
+            StartCoroutine(PlantSeedSecondStage(0.15f));
             foreach (var obj in currentSeeds)
             {
                 if (obj != null)
                     Destroy(obj);
             }
             currentSeeds.Clear();
-
            // Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
+            positionInts.Clear();
+            for (int i = 0; i < 3; i++)
             {
-                Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-                spawnedThirdStage++;
-                currentThirdStage.Add(instance);
-            }
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
 
+            }
+            spawnedThirdStage = plantedSeedCount;
             foreach (var obj in currentSecondStage)
             {
                 if (obj != null)
                     Destroy(obj);
             }
             currentSecondStage.Clear();
+            StartCoroutine(PlantSeedThirdStage(0.15f));
 
-           // Debug.Log("Third stage placed");
+            // Debug.Log("Third stage placed");
         }
     }
-    public void PlantSeedFirstStage() 
+    public IEnumerator PlantSeedFirstStage(float timer) 
     {
         for (int i = 0; i < 3; i++)
         {
+
             //Vector3 spawnPos = new Vector3(transform.position.x , transform.position.y , transform.position.z );
             GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
 
-            waterSeeds--;
+            
             plantedSeedCount++;
             nextSeedIndex++;
             currentSeeds.Add(instance);
+            yield return new WaitForSeconds(timer);
+            
         }
+    }
+    public IEnumerator PlantSeedSecondStage(float timer) 
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            
+            int randomFlower = Random.Range(0, 3);
+            flowerIndexes.Add(randomFlower);
+            selectedPrimary = waterSecondStage[randomFlower];
+            GameObject instance = Instantiate(selectedPrimary, seedParents[positionInts[i]].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedSecondStage++;
+            currentSecondStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+    }
+    public IEnumerator PlantSeedThirdStage(float timer) 
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            selectedSecondary = waterThirdStage[flowerIndexes[i]];
+            GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedThirdStage++;
+            currentThirdStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+        waterSeeds = 3;
+
     }
 }

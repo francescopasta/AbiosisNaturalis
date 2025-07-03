@@ -76,7 +76,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             new FlowerAction //water flower
             {
                 index = 0,
-                targetAngle = 120f,
+                targetAngle = 0f,
                 action = () =>
                 {
 
@@ -84,7 +84,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
                     {
                         waterFlower.firstStage = true;
                     }
-
+                   
                     waterFlower.WaterFlowers();
 
                     if (waterMeter.waterLevels[0] >= 100 && !waterMeter.waterPlantAutomated)
@@ -109,7 +109,7 @@ public class FlowerManagerUpdate : MonoBehaviour ///FIX THE WATER SLIDER FOR THE
             new FlowerAction //fire flower
             {
                 index = 1,
-                targetAngle = 0f,
+                targetAngle = 120f,
                 action = () =>
                 {
                     if (fireFlower.fireSeeds > 0 && fireProgress == FlowerProgress.None && waterMeter.waterLevels[1] == 0)
