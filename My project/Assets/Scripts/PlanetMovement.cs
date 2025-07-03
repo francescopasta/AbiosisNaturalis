@@ -53,7 +53,7 @@ public class PlanetMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isDragging = true;
-            wasOnTheLeft = Input.mousePosition.x < Screen.width / 2f; //checks if the mouse is on the left side of the screen
+            wasOnTheLeft = Input.mousePosition.x < Screen.width / 2f;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -61,11 +61,11 @@ public class PlanetMovement : MonoBehaviour
             isDragging = false;
         }
 
-        if (isDragging)
+        if (isDragging && Input.GetMouseButton(0))
         {
             bool isOnTheLeft = Input.mousePosition.x < Screen.width / 2f;
 
-            if (isOnTheLeft != wasOnTheLeft) //checks if the mouse crossed the center of the screen
+            if (isOnTheLeft != wasOnTheLeft)
             {
                 wasOnTheLeft = isOnTheLeft;
                 float direction = isOnTheLeft ? 1f : -1f;
@@ -73,6 +73,7 @@ public class PlanetMovement : MonoBehaviour
             }
         }
     }
+
 
     void HandleTouchInput()
     {

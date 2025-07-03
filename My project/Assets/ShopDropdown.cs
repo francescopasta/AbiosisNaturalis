@@ -1,27 +1,32 @@
 using UnityEngine;
-
 using UnityEngine.UI;
+
 public class ShopDropdown : MonoBehaviour
 {
     public GameObject panel;
     public GameObject manager;
+
     private void Start()
     {
-        Button myButton = GetComponent<Button>();
+        Toggle myToggle = GetComponent<Toggle>();
 
-        if (myButton != null)
+        if (myToggle != null)
         {
-            myButton.onClick.AddListener(OnClick);
+            myToggle.onValueChanged.AddListener(OnToggleValueChanged);
         }
     }
 
-    public void OnClick()
+    public void OnToggleValueChanged(bool isOn)
     {
-        panel.SetActive(!panel.activeSelf);
-        PlanetMovement planet = manager.GetComponent<PlanetMovement>();
-        if (manager != null) 
+        panel.SetActive(isOn);
+
+        if (manager != null)
         {
-            planet.enabled = !planet.isActiveAndEnabled;
+            PlanetMovement planet = manager.GetComponent<PlanetMovement>();
+            if (planet != null)
+            {
+                planet.enabled = !isOn; // Disable movement when panel is open
+            }
         }
     }
 }
