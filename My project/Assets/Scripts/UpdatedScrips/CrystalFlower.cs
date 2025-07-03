@@ -117,20 +117,20 @@ public class CrystalFlowerUpdated : MonoBehaviour
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount)
         {
-            positionInts.Clear();
-            for (int i = 0; i < 3; i++)
-            {
-                int randomPosition = Random.Range(0, 3);
-                if (!positionInts.Contains(randomPosition))
-                {
-                    positionInts.Add(randomPosition);
-                }
-                else
-                {
-                    i--;
-                }
+            //positionInts.Clear();
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    int randomPosition = Random.Range(0, 3);
+            //    if (!positionInts.Contains(randomPosition))
+            //    {
+            //        positionInts.Add(randomPosition);
+            //    }
+            //    else
+            //    {
+            //        i--;
+            //    }
 
-            }
+            //}
             spawnedThirdStage = plantedSeedCount;
             foreach (var obj in currentSecondStage)
             {
@@ -179,7 +179,7 @@ public class CrystalFlowerUpdated : MonoBehaviour
         {
 
             selectedSecondary = crystalThirdStage[flowerIndexes[i]];
-            GameObject instance = Instantiate(selectedSecondary, seedParents[flowerIndexes[i]].transform.position, transform.rotation, seedParents[flowerIndexes[i]].transform);
+            GameObject instance = Instantiate(selectedSecondary, seedParents[positionInts[i]].transform.position, transform.rotation, seedParents[positionInts[i]].transform);
             spawnedThirdStage++;
             currentThirdStage.Add(instance);
             yield return new WaitForSeconds(timer);
