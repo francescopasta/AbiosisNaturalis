@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,12 +48,12 @@ public class CrystalFlowerUpdated : MonoBehaviour
 
     public ShopManagement shopManagementUpdated;
     public List<GameObject> seedParents = new List<GameObject>();
+    public List<int> flowerIndexes = new List<int>();
+    public List<int> positionInts = new List<int>();
+    public bool seedsPlanted = false;
     public void CrystalFlowers()
     {
-        Vector3[] offsets = {
-            new Vector3(-2, 0, 0),
-            new Vector3(0, 0, 0),
-            new Vector3(2, 0, 0) };
+     
 
         if (crystalSecondStage.Length != crystalThirdStage.Length)
         {
@@ -60,38 +61,38 @@ public class CrystalFlowerUpdated : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < crystalSeeds; i++)
+        //for (int i = 0; i < crystalSeeds; i++)
+        //{
+        //    int index = Random.Range(0, crystalSecondStage.Length);
+
+        //    selectedPrimary = crystalSecondStage[index];
+        //    selectedSecondary = crystalThirdStage[index];
+        //}
+
+        if (firstStage && nextSeedIndex < 3 && crystalSeeds > 0 && shopManagementUpdated.gardenUnlock[1])
         {
-            int index = Random.Range(0, crystalSecondStage.Length);
 
-            selectedPrimary = crystalSecondStage[index];
-            selectedSecondary = crystalThirdStage[index];
-        }
-
-        if (firstStage && crystalSeeds > 0 && nextSeedIndex < offsets.Length && shopManagementUpdated.gardenUnlock[1])
-        {
-            
-            //Debug.Log("First stage water placed");
-            for (int i = 0; i < 3; i++)
-            {
-                //Vector3 spawnPos = transform.position + offsets[nextSeedIndex];
-                GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-
-                crystalSeeds--;
-                plantedSeedCount++;
-                nextSeedIndex++;
-                currentSeeds.Add(instance);
-            }
+            positionInts.Clear();
+            seedsPlanted = true;
+            crystalSeeds = 0;
+            StartCoroutine(PlantSeedFirstStage(0.15f));
         }
 
         if (secondStage && plantedSeedCount > 0 && spawnedSecondStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
+            spawnedSecondStage = plantedSeedCount;
+            for (int i = 0; i < 3; i++)
             {
-                //Vector3 spawnPos = transform.position + offsets[i];
-                GameObject instance = Instantiate(selectedPrimary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-                spawnedSecondStage++;
-                currentSecondStage.Add(instance);
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
+
             }
 
             foreach (var obj in currentSeeds)
@@ -100,19 +101,29 @@ public class CrystalFlowerUpdated : MonoBehaviour
                     Destroy(obj);
             }
             currentSeeds.Clear();
-
-          //  Debug.Log("Second stage placed");
+            currentSecondStage.Clear();
+            StartCoroutine(PlantSeedSecondStage(0.15f));
+            //Debug.Log("Second stage placed");
         }
 
         if (thirdStage && plantedSeedCount > 0 && spawnedThirdStage < plantedSeedCount && shopManagementUpdated.gardenUnlock[1])
         {
-            for (int i = 0; i < plantedSeedCount && i < offsets.Length; i++)
+            spawnedThirdStage = plantedSeedCount;
+            positionInts.Clear();
+            for (int i = 0; i < 3; i++)
             {
-                    //Vector3 spawnPos = transform.position + offsets[i];
-                    GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
-                spawnedThirdStage++;
-                currentThirdStage.Add(instance);
+                int randomPosition = Random.Range(0, 3);
+                if (!positionInts.Contains(randomPosition))
+                {
+                    positionInts.Add(randomPosition);
+                }
+                else
+                {
+                    i--;
+                }
+
             }
+            spawnedThirdStage = plantedSeedCount;
 
             foreach (var obj in currentSecondStage)
             {
@@ -120,8 +131,49 @@ public class CrystalFlowerUpdated : MonoBehaviour
                     Destroy(obj);
             }
             currentSecondStage.Clear();
-
-           // Debug.Log("Third stage placed");
+            StartCoroutine(PlantSeedThirdStage(0.15f));
+            // Debug.Log("Third stage placed");
         }
+    }
+    private IEnumerator PlantSeedFirstStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject instance = Instantiate(seed, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+
+            crystalSeeds--;
+            plantedSeedCount++;
+            nextSeedIndex++;
+            currentSeeds.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+    }
+    private IEnumerator PlantSeedSecondStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            int randomFlower = Random.Range(0, 3);
+            flowerIndexes.Add(randomFlower);
+            selectedPrimary = crystalThirdStage[randomFlower];
+            GameObject instance = Instantiate(selectedPrimary, seedParents[positionInts[i]].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedSecondStage++;
+            currentSecondStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+    }
+    private IEnumerator PlantSeedThirdStage(float timer)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+
+            selectedSecondary = crystalThirdStage[flowerIndexes[i]];
+            GameObject instance = Instantiate(selectedSecondary, seedParents[i].transform.position, transform.rotation, seedParents[i].transform);
+            spawnedThirdStage++;
+            currentThirdStage.Add(instance);
+            yield return new WaitForSeconds(timer);
+        }
+        crystalSeeds = 3;
+
     }
 }
